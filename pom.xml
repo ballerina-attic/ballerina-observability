@@ -365,12 +365,6 @@
                     <processors>
                         <processor>org.ballerinalang.codegen.BallerinaAnnotationProcessor</processor>
                     </processors>
-                    <options>
-                        <nativeEntityProviderPackage>
-                            org.ballerinalang.net.ftp.generated.providers
-                        </nativeEntityProviderPackage>
-                        <nativeEntityProviderClass>StandardNativeElementProvider</nativeEntityProviderClass>
-                    </options>
                 </configuration>
                 <executions>
                     <execution>

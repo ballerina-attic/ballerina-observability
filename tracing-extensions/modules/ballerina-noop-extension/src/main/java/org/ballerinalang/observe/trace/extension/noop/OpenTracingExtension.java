@@ -18,6 +18,7 @@
 package org.ballerinalang.observe.trace.extension.noop;
 
 import io.opentracing.Tracer;
+import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.util.tracer.OpenTracer;
 
 import java.util.Properties;
@@ -25,9 +26,18 @@ import java.util.Properties;
 /**
  * Tracer extension that returns an instance of no-op tracer.
  */
+@JavaSPIService("org.ballerinalang.util.tracer.OpenTracer")
 public class OpenTracingExtension implements OpenTracer {
+
+    private static final String NAME = "noop";
+
     @Override
     public Tracer getTracer(String tracerName, Properties configProperties, String serviceName) {
         return NoopTracer.INSTANCE;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }
