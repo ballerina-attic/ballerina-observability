@@ -185,6 +185,21 @@
                 <artifactId>okio</artifactId>
                 <version>${okio.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.opentracing.brave</groupId>
+                <artifactId>brave-opentracing</artifactId>
+                <version>${brave.open.tracing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zipkin.reporter2</groupId>
+                <artifactId>zipkin-reporter</artifactId>
+                <version>${zipkin.reporter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zipkin.reporter2</groupId>
+                <artifactId>zipkin-sender-okhttp3</artifactId>
+                <version>${zipkin.reporter.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -399,6 +414,10 @@
         <libthrift.version>0.10.0</libthrift.version>
         <okhttp.version>3.9.1</okhttp.version>
         <okio.version>1.13.0</okio.version>
+        <brave.open.tracing.version>0.29.0</brave.open.tracing.version>
+        <brave.zipkin.version>4.17.1</brave.zipkin.version>
+        <zipkin.reporter.version>2.5.0</zipkin.reporter.version>
+        <zipkin.version>2.6.1</zipkin.version>
     </properties>
 
 </project>
