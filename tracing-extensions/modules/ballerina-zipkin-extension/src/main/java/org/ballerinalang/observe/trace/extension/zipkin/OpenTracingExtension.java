@@ -17,19 +17,20 @@
  */
 package org.ballerinalang.observe.trace.extension.zipkin;
 
-import brave.Tracing;
-import brave.opentracing.BraveTracer;
 import io.opentracing.Tracer;
+import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.util.tracer.OpenTracer;
 import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import zipkin2.reporter.AsyncReporter;
-import zipkin2.reporter.Sender;
-import zipkin2.reporter.okhttp3.OkHttpSender;
 
 import java.util.Properties;
 
+import brave.Tracing;
+import brave.opentracing.BraveTracer;
+import zipkin2.reporter.AsyncReporter;
+import zipkin2.reporter.Sender;
+import zipkin2.reporter.okhttp3.OkHttpSender;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_HOSTNAME;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_PORT;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_HOST_NAME_CONFIG;
@@ -39,9 +40,11 @@ import static org.ballerinalang.observe.trace.extension.zipkin.Constants.TRACER_
 /**
  * This is the open tracing extension class for {@link OpenTracer}.
  */
+@JavaSPIService("org.ballerinalang.util.tracer.OpenTracer")
 public class OpenTracingExtension implements OpenTracer {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenTracingExtension.class);
+    private static final String NAME = "zipkin";
 
     @Override
     public Tracer getTracer(String tracerName, Properties configProperties, String serviceName)
@@ -61,6 +64,11 @@ public class OpenTracingExtension implements OpenTracer {
                 .localServiceName(serviceName)
                 .spanReporter(AsyncReporter.create(sender))
                 .build()).activeScopeManager(NoOpScopeManager.INSTANCE).build();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     private void validateConfiguration(Properties configuration) {
