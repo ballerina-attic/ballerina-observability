@@ -17,20 +17,20 @@
  */
 package org.ballerinalang.observe.trace.extension.zipkin;
 
+import brave.Tracing;
+import brave.opentracing.BraveTracer;
 import io.opentracing.Tracer;
 import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.util.tracer.OpenTracer;
 import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Properties;
-
-import brave.Tracing;
-import brave.opentracing.BraveTracer;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Sender;
 import zipkin2.reporter.okhttp3.OkHttpSender;
+
+import java.util.Properties;
+
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_HOSTNAME;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_PORT;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_HOST_NAME_CONFIG;
