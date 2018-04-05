@@ -3,7 +3,7 @@
 ##### Install Guide
 
 - Start Zipkin. You can use their docker image using following command. `docker run -d -p 9411:9411 openzipkin/zipkin`.
-- Build `ballerina-zipkin-extension` and copy the jar files found in <ballerina-zipkin-extension>/target/zipkin-extension/
+- Build `ballerina-zipkin-extension` and copy the jar files found in <ballerina-zipkin-extension>/target/distribution/
  into the `bre/lib/` directory of the ballerina distribution.
 
 - Create a `trace-config.yaml` with following properties.

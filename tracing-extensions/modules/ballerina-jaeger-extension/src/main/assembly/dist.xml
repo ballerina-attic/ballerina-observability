@@ -19,15 +19,24 @@
 <assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
-    <id>bin</id>
+    <id>distribution</id>
     <includeBaseDirectory>false</includeBaseDirectory>
     <formats>
         <format>zip</format>
     </formats>
-    <fileSets>
-        <fileSet>
-            <directory>${project.build.directory}/jaeger-extension</directory>
-            <outputDirectory>jaeger-extension</outputDirectory>
-        </fileSet>
-    </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory></outputDirectory>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.ballerinalang:ballerina-jaeger-extension:jar</include>
+                <include>com.uber.jaeger:jaeger-core</include>
+                <include>com.uber.jaeger:jaeger-thrift</include>
+                <include>org.apache.thrift:libthrift</include>
+                <include>com.squareup.okhttp3:okhttp</include>
+                <include>com.squareup.okio:okio</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
 </assembly>
