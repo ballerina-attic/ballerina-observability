@@ -23,7 +23,7 @@
     <groupId>org.ballerinalang</groupId>
     <artifactId>ballerina-observability-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.970.0-alpha1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <name>Ballerina Observability - Parent</name>
 
     <description>
