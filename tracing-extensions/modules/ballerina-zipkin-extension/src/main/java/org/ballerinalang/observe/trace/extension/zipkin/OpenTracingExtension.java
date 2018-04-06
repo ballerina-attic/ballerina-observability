@@ -23,13 +23,12 @@ import io.opentracing.Tracer;
 import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.util.tracer.OpenTracer;
 import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Sender;
 import zipkin2.reporter.okhttp3.OkHttpSender;
 
-import java.util.Properties;
+import java.io.PrintStream;
+import java.util.Map;
 
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_HOSTNAME;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_PORT;
@@ -43,22 +42,22 @@ import static org.ballerinalang.observe.trace.extension.zipkin.Constants.TRACER_
 @JavaSPIService("org.ballerinalang.util.tracer.OpenTracer")
 public class OpenTracingExtension implements OpenTracer {
 
-    private static final Logger logger = LoggerFactory.getLogger(OpenTracingExtension.class);
+    private static final PrintStream consoleError = System.err;
     private static final String NAME = "zipkin";
 
     @Override
-    public Tracer getTracer(String tracerName, Properties configProperties, String serviceName)
+    public Tracer getTracer(String tracerName, Map<String, String> configProperties, String serviceName)
             throws InvalidConfigurationException {
         if (!tracerName.equalsIgnoreCase(TRACER_NAME)) {
             throw new InvalidConfigurationException("Unexpected tracer name! " +
                     "The tracer name supported by this extension is : " + TRACER_NAME + " but found : "
                     + tracerName);
         }
-        validateConfiguration(configProperties);
         Sender sender = OkHttpSender.create(
                 "http://" +
-                        configProperties.get(REPORTER_HOST_NAME_CONFIG) + ":" +
-                        configProperties.get(REPORTER_PORT_CONFIG) +
+                        configProperties.getOrDefault(REPORTER_HOST_NAME_CONFIG, DEFAULT_REPORTER_HOSTNAME) + ":" +
+                        getValidIntegerConfig(configProperties
+                                .get(REPORTER_PORT_CONFIG), DEFAULT_REPORTER_PORT, REPORTER_PORT_CONFIG) +
                         Constants.REPORTING_API_CONTEXT);
         return BraveTracer.newBuilder(Tracing.newBuilder()
                 .localServiceName(serviceName)
@@ -71,33 +70,16 @@ public class OpenTracingExtension implements OpenTracer {
         return NAME;
     }
 
-    private void validateConfiguration(Properties configuration) {
-        setValidatedStringConfig(configuration, REPORTER_HOST_NAME_CONFIG, DEFAULT_REPORTER_HOSTNAME);
-        setValidatedIntegerConfig(configuration, REPORTER_PORT_CONFIG, DEFAULT_REPORTER_PORT);
-    }
-
-    private void setValidatedStringConfig(Properties configuration, String configName, String defaultValue) {
-        Object configValue = configuration.get(configName);
-        if (configValue == null || configValue.toString().trim().isEmpty()) {
-            configuration.put(configName, defaultValue);
-        } else {
-            configuration.put(configName, configValue.toString().trim());
-        }
-    }
-
-    private void setValidatedIntegerConfig(Properties configuration, String configName, int defaultValue) {
-        Object configValue = configuration.get(configName);
-        if (configValue == null) {
-            configuration.put(configName, defaultValue);
+    private int getValidIntegerConfig(String config, int defaultValue, String configName) {
+        if (config == null) {
+            return defaultValue;
         } else {
             try {
-                configuration.put(configName, Integer.parseInt(configValue.toString()));
+                return Integer.parseInt(config);
             } catch (NumberFormatException ex) {
-                logger.warn("Open tracing configuration for tracer name - " + TRACER_NAME +
-                        " expects configuration element : " + configName + "with integer type but found non integer : "
-                        + configValue.toString() + " ! Therefore assigning default value : " + defaultValue
-                        + " for " + configName + " configuration.");
-                configuration.put(configName, defaultValue);
+                consoleError.println("ballerina: observability tracing configuration " + configName
+                        + " is invalid. Default value of " + defaultValue + " will be used.");
+                return defaultValue;
             }
         }
     }
