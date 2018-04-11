@@ -42,12 +42,22 @@ import static org.ballerinalang.observe.trace.extension.zipkin.Constants.TRACER_
 @JavaSPIService("org.ballerinalang.util.tracer.OpenTracer")
 public class OpenTracingExtension implements OpenTracer {
 
+    private static final PrintStream console = System.out;
     private static final PrintStream consoleError = System.err;
     private static final String NAME = "zipkin";
+    private Map<String, String> configProperties;
 
     @Override
-    public Tracer getTracer(String tracerName, Map<String, String> configProperties, String serviceName)
-            throws InvalidConfigurationException {
+    public void init(Map<String, String> configProperties) {
+        console.println("ballerina: started publishing tracers to Jaeger on "
+                + configProperties.getOrDefault(REPORTER_HOST_NAME_CONFIG, DEFAULT_REPORTER_HOSTNAME) + ":" +
+                getValidIntegerConfig(configProperties.get(REPORTER_PORT_CONFIG),
+                        DEFAULT_REPORTER_PORT, REPORTER_PORT_CONFIG));
+        this.configProperties = configProperties;
+    }
+
+    @Override
+    public Tracer getTracer(String tracerName, String serviceName) throws InvalidConfigurationException {
         if (!tracerName.equalsIgnoreCase(TRACER_NAME)) {
             throw new InvalidConfigurationException("Unexpected tracer name! " +
                     "The tracer name supported by this extension is : " + TRACER_NAME + " but found : "
