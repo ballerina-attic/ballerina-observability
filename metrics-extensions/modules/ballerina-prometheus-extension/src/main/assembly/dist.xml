@@ -27,7 +27,7 @@
             <outputDirectory></outputDirectory>
             <scope>runtime</scope>
             <includes>
-                <include>org.ballerinalang:ballerina-prometheus-extension:jar</include>
+                <include>org.ballerinalang.observability:ballerina-prometheus-extension:jar</include>
                 <include>io.micrometer:micrometer-registry-prometheus</include>
                 <include>io.prometheus:simpleclient</include>
                 <include>io.prometheus:simpleclient_common</include>
