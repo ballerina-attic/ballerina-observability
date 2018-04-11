@@ -156,6 +156,51 @@
                 <version>${ballerina.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.ballerinalang</groupId>
+                <artifactId>ballerina-config</artifactId>
+                <version>${ballerina.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-core</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hdrhistogram</groupId>
+                <artifactId>HdrHistogram</artifactId>
+                <version>${hdrhistogram.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.latencyutils</groupId>
+                <artifactId>LatencyUtils</artifactId>
+                <version>${latencyutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient</artifactId>
+                <version>${prometheus.simple.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient_common</artifactId>
+                <version>${prometheus.simple.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient_httpserver</artifactId>
+                <version>${prometheus.simple.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ballerinalang</groupId>
+                <artifactId>ballerina-micrometer-extension</artifactId>
+                <version>${ballerina.observability.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.opentracing</groupId>
                 <artifactId>opentracing-api</artifactId>
                 <version>${open.tracing.version}</version>
@@ -199,6 +244,12 @@
                 <groupId>io.zipkin.reporter2</groupId>
                 <artifactId>zipkin-sender-okhttp3</artifactId>
                 <version>${zipkin.reporter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -313,19 +364,18 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven.failsafe.plugin.version}</version>
             </plugin>
-            <plugin><!-- Overridden from parent pom to exclude generated sources -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${maven.spotbugsplugin.version}</version>
                 <configuration>
                     <effort>Max</effort>
                     <threshold>Low</threshold>
                     <xmlOutput>true</xmlOutput>
-                    <findbugsXmlOutputDirectory>
-                        ${project.build.directory}/findbugs
-                    </findbugsXmlOutputDirectory>
-                    <excludeFilterFile>${maven.findbugsplugin.version.exclude}</excludeFilterFile>
+                    <spotbugsXmlOutputDirectory>${project.build.directory}/spotbugs</spotbugsXmlOutputDirectory>
+                    <!--Exclude sources-->
+                    <excludeFilterFile>${maven.spotbugsplugin.exclude.file}</excludeFilterFile>
                 </configuration>
-                <version>${maven.findbugsplugin.version}</version>
                 <executions>
                     <execution>
                         <id>analyze-compile</id>
@@ -390,7 +440,8 @@
     </build>
 
     <properties>
-        <ballerina.version>0.970.0-alpha1-SNAPSHOT</ballerina.version>
+        <ballerina.observability.version>0.1.0-SNAPSHOT</ballerina.observability.version>
+        <ballerina.version>0.970.0-alpha5-SNAPSHOT</ballerina.version>
         <project.scm.id>my-scm-server</project.scm.id>
         <maven.wagon.ssh.version>2.1</maven.wagon.ssh.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
@@ -398,7 +449,7 @@
         <maven.deploy.plugin.version>2.8.2</maven.deploy.plugin.version>
         <wso2.maven.compiler.source>1.8</wso2.maven.compiler.source>
         <wso2.maven.compiler.target>1.8</wso2.maven.compiler.target>
-        <maven.findbugsplugin.version>3.0.3</maven.findbugsplugin.version>
+        <maven.spotbugsplugin.version>3.1.1</maven.spotbugsplugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>2.19.1</maven.surefire.plugin.version>
@@ -407,8 +458,13 @@
         <maven.dependency.plugin.version>3.0.2</maven.dependency.plugin.version>
         <maven.processor.plugin.version>2.2.4</maven.processor.plugin.version>
         <maven.remote.resource.plugin.version>1.5</maven.remote.resource.plugin.version>
-        <maven.findbugsplugin.version.exclude>findbugs-exclude.xml</maven.findbugsplugin.version.exclude>
+        <maven.spotbugsplugin.exclude.file>spotbugs-exclude.xml</maven.spotbugsplugin.exclude.file>
+        <testng.version>6.14.3</testng.version>
 
+        <micrometer.version>1.0.3</micrometer.version>
+        <hdrhistogram.version>2.1.10</hdrhistogram.version>
+        <latencyutils.version>2.0.3</latencyutils.version>
+        <prometheus.simple.client.version>0.3.0</prometheus.simple.client.version>
         <open.tracing.version>0.31.0</open.tracing.version>
         <jaeger.version>0.24.0</jaeger.version>
         <libthrift.version>0.10.0</libthrift.version>

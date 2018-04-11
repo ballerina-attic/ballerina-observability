@@ -16,15 +16,22 @@
   ~ under the License.
   -->
 <assembly>
-    <id>bin</id>
+    <id>distribution</id>
     <includeBaseDirectory>false</includeBaseDirectory>
     <formats>
         <format>zip</format>
     </formats>
-    <fileSets>
-        <fileSet>
-            <directory>${project.build.directory}/micrometer-extension</directory>
-            <outputDirectory>micrometer-extension</outputDirectory>
-        </fileSet>
-    </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory></outputDirectory>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.ballerinalang:ballerina-micrometer-extension:jar</include>
+                <include>io.micrometer:micrometer-core</include>
+                <include>org.hdrhistogram:HdrHistogram</include>
+                <include>org.latencyutils:LatencyUtils</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
 </assembly>
