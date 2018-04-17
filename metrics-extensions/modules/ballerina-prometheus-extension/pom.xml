@@ -16,18 +16,18 @@
   ~ specific language governing permissions and limitations
   ~ under the License.
   -->
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.ballerinalang.observability</groupId>
-        <artifactId>tracing-extensions</artifactId>
+        <artifactId>metrics-extensions</artifactId>
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ballerina-zipkin-extension</artifactId>
-    <name>Ballerina - Zipkin Tracing Extension</name>
+    <artifactId>ballerina-prometheus-extension</artifactId>
+    <name>Ballerina - Prometheus Extension for Metrics</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -36,20 +36,24 @@
             <artifactId>ballerina-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.opentracing</groupId>
-            <artifactId>opentracing-api</artifactId>
+            <groupId>org.ballerinalang</groupId>
+            <artifactId>ballerina-config</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.opentracing.brave</groupId>
-            <artifactId>brave-opentracing</artifactId>
+            <groupId>org.ballerinalang.observability</groupId>
+            <artifactId>ballerina-micrometer-extension</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.zipkin.reporter2</groupId>
-            <artifactId>zipkin-reporter</artifactId>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.zipkin.reporter2</groupId>
-            <artifactId>zipkin-sender-okhttp3</artifactId>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_httpserver</artifactId>
         </dependency>
     </dependencies>
 
