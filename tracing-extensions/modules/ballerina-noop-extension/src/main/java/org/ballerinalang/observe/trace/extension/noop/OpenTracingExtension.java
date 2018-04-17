@@ -20,8 +20,7 @@ package org.ballerinalang.observe.trace.extension.noop;
 import io.opentracing.Tracer;
 import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.util.tracer.OpenTracer;
-
-import java.util.Map;
+import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
 
 /**
  * Tracer extension that returns an instance of no-op tracer.
@@ -37,7 +36,7 @@ public class OpenTracingExtension implements OpenTracer {
     }
 
     @Override
-    public void init(Map<String, String> map) {
+    public void init() throws InvalidConfigurationException {
         // Do Nothing
     }
 

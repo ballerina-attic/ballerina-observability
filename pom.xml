@@ -390,7 +390,7 @@
     </build>
 
     <properties>
-        <ballerina.version>0.970.0-alpha5-SNAPSHOT</ballerina.version>
+        <ballerina.version>0.970.0-beta1-SNAPSHOT</ballerina.version>
         <project.scm.id>my-scm-server</project.scm.id>
         <maven.wagon.ssh.version>2.1</maven.wagon.ssh.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
