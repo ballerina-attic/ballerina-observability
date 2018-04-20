@@ -21,6 +21,7 @@ import brave.Tracing;
 import brave.opentracing.BraveTracer;
 import io.opentracing.Tracer;
 import org.ballerinalang.annotation.JavaSPIService;
+import org.ballerinalang.config.ConfigRegistry;
 import org.ballerinalang.util.tracer.OpenTracer;
 import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
 import zipkin2.reporter.AsyncReporter;
@@ -28,13 +29,12 @@ import zipkin2.reporter.Sender;
 import zipkin2.reporter.okhttp3.OkHttpSender;
 
 import java.io.PrintStream;
-import java.util.Map;
+import java.util.Objects;
 
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_HOSTNAME;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_PORT;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_HOST_NAME_CONFIG;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_PORT_CONFIG;
-import static org.ballerinalang.observe.trace.extension.zipkin.Constants.TRACER_NAME;
 
 /**
  * This is the open tracing extension class for {@link OpenTracer}.
@@ -45,30 +45,31 @@ public class OpenTracingExtension implements OpenTracer {
     private static final PrintStream console = System.out;
     private static final PrintStream consoleError = System.err;
     private static final String NAME = "zipkin";
-    private Map<String, String> configProperties;
+
+    private ConfigRegistry configRegistry;
+    private String hostname;
+    private int port;
 
     @Override
-    public void init(Map<String, String> configProperties) {
-        console.println("ballerina: started publishing tracers to Jaeger on "
-                + configProperties.getOrDefault(REPORTER_HOST_NAME_CONFIG, DEFAULT_REPORTER_HOSTNAME) + ":" +
-                getValidIntegerConfig(configProperties.get(REPORTER_PORT_CONFIG),
-                        DEFAULT_REPORTER_PORT, REPORTER_PORT_CONFIG));
-        this.configProperties = configProperties;
+    public void init() throws InvalidConfigurationException {
+        configRegistry = ConfigRegistry.getInstance();
+        hostname = configRegistry.getConfigOrDefault(REPORTER_HOST_NAME_CONFIG, DEFAULT_REPORTER_HOSTNAME);
+        port = Integer.parseInt(configRegistry.getConfigOrDefault(REPORTER_PORT_CONFIG,
+                String.valueOf(DEFAULT_REPORTER_PORT)));
+
+        console.println("ballerina: started publishing tracers to Zipkin on " + hostname + ":" + port);
     }
 
     @Override
-    public Tracer getTracer(String tracerName, String serviceName) throws InvalidConfigurationException {
-        if (!tracerName.equalsIgnoreCase(TRACER_NAME)) {
-            throw new InvalidConfigurationException("Unexpected tracer name! " +
-                    "The tracer name supported by this extension is : " + TRACER_NAME + " but found : "
-                    + tracerName);
+    public Tracer getTracer(String tracerName, String serviceName) {
+
+        if (Objects.isNull(configRegistry)) {
+            throw new IllegalStateException("Tracer not initialized with configurations");
         }
+
         Sender sender = OkHttpSender.create(
                 "http://" +
-                        configProperties.getOrDefault(REPORTER_HOST_NAME_CONFIG, DEFAULT_REPORTER_HOSTNAME) + ":" +
-                        getValidIntegerConfig(configProperties
-                                .get(REPORTER_PORT_CONFIG), DEFAULT_REPORTER_PORT, REPORTER_PORT_CONFIG) +
-                        Constants.REPORTING_API_CONTEXT);
+                        hostname + ":" + port + Constants.REPORTING_API_CONTEXT);
         return BraveTracer.newBuilder(Tracing.newBuilder()
                 .localServiceName(serviceName)
                 .spanReporter(AsyncReporter.create(sender))
@@ -78,19 +79,5 @@ public class OpenTracingExtension implements OpenTracer {
     @Override
     public String getName() {
         return NAME;
-    }
-
-    private int getValidIntegerConfig(String config, int defaultValue, String configName) {
-        if (config == null) {
-            return defaultValue;
-        } else {
-            try {
-                return Integer.parseInt(config);
-            } catch (NumberFormatException ex) {
-                consoleError.println("ballerina: observability tracing configuration " + configName
-                        + " is invalid. Default value of " + defaultValue + " will be used.");
-                return defaultValue;
-            }
-        }
     }
 }
