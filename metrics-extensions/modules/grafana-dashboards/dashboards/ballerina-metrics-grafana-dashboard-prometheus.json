@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1524645670627,
+  "iteration": 1524646995501,
   "links": [],
   "panels": [
     {
@@ -2410,7 +2410,7 @@
         "multi": true,
         "name": "db_statement",
         "options": [],
-        "query": "label_values(db_statement)",
+        "query": "label_values(ballerina_sql:CallerActions_requests_total,db_statement)",
         "refresh": 1,
         "regex": "",
         "sort": 0,
@@ -2430,7 +2430,7 @@
         "multi": true,
         "name": "db_instance",
         "options": [],
-        "query": "label_values(db_instance)",
+        "query": "label_values(ballerina_sql:CallerActions_requests_total,db_instance)",
         "refresh": 1,
         "regex": "",
         "sort": 0,
@@ -2443,7 +2443,7 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -2474,5 +2474,5 @@
   "timezone": "",
   "title": "Ballerina Metrics",
   "uid": "8FPN-nmik",
-  "version": 31
+  "version": 33
 }
