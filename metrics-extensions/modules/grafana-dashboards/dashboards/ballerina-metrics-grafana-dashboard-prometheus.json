@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1524646995510,
+  "iteration": 1524648716975,
   "links": [],
   "panels": [
     {
@@ -797,7 +797,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
+        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -819,7 +819,7 @@
           "expr": "topk(5,http_requests_total)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Service: {{service}}, Resource: {{resource}}, URL: {{http_url}}",
+          "legendFormat": "Instance: {{instance}}, Protocol: {{protocol}}, Method: {{http_method}}, URL: {{http_url}}",
           "refId": "A"
         }
       ],
@@ -1504,7 +1504,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
+        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -1526,7 +1526,7 @@
           "expr": "topk(5,ballerina_http:HttpCachingClient_requests_total)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{peer_address}}{{http_url}}",
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Method: {{http_method}}, Peer Address: {{peer_address}}, URL: {{http_url}}",
           "refId": "A"
         }
       ],
@@ -2178,7 +2178,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
+        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -2200,7 +2200,7 @@
           "expr": "topk(5,ballerina_sql:CallerActions_requests_total)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{peer_address}} - {{action}}",
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
           "refId": "A"
         }
       ],
@@ -2613,7 +2613,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -2644,5 +2644,5 @@
   "timezone": "",
   "title": "Ballerina Metrics",
   "uid": "8FPN-nmik",
-  "version": 36
+  "version": 37
 }
