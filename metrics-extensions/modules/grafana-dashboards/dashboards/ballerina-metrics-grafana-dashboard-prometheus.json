@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1524646995501,
+  "iteration": 1524646995510,
   "links": [],
   "panels": [
     {
@@ -792,12 +792,13 @@
       },
       "id": 78,
       "legend": {
-        "alignAsTable": false,
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "show": false,
+        "rightSide": true,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -818,7 +819,7 @@
           "expr": "topk(5,http_requests_total)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{http_url}}",
+          "legendFormat": "Service: {{service}}, Resource: {{resource}}, URL: {{http_url}}",
           "refId": "A"
         }
       ],
@@ -836,7 +837,7 @@
         "buckets": null,
         "mode": "series",
         "name": null,
-        "show": true,
+        "show": false,
         "values": [
           "avg"
         ]
@@ -856,7 +857,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ]
     },
@@ -1498,12 +1499,13 @@
       },
       "id": 80,
       "legend": {
-        "alignAsTable": false,
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "show": false,
+        "rightSide": true,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -1542,7 +1544,7 @@
         "buckets": null,
         "mode": "series",
         "name": null,
-        "show": true,
+        "show": false,
         "values": [
           "avg"
         ]
@@ -1562,7 +1564,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ]
     },
@@ -2073,12 +2075,180 @@
       ]
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 64
+      },
+      "id": 89,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(ballerina_sql:CallerActions_failed_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Ballerina SQL Errors",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "label": "Statements / min",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 64
+      },
+      "id": 90,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "topk(5,ballerina_sql:CallerActions_requests_total)",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "{{peer_address}} - {{action}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top 5 SQL actions",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "series",
+        "name": null,
+        "show": false,
+        "values": [
+          "avg"
+        ]
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 64
+        "y": 73
       },
       "id": 72,
       "panels": [],
@@ -2097,7 +2267,7 @@
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 65
+        "y": 74
       },
       "id": 70,
       "legend": {
@@ -2474,5 +2644,5 @@
   "timezone": "",
   "title": "Ballerina Metrics",
   "uid": "8FPN-nmik",
-  "version": 33
+  "version": 36
 }
