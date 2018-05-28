@@ -27,7 +27,7 @@
             <outputDirectory></outputDirectory>
             <scope>runtime</scope>
             <includes>
-                <include>org.ballerinalang.observability:ballerina-jaeger-extension:jar</include>
+                <include>org.ballerinalang:ballerina-jaeger-extension:jar</include>
                 <include>com.uber.jaeger:jaeger-core</include>
                 <include>com.uber.jaeger:jaeger-thrift</include>
                 <include>org.apache.thrift:libthrift</include>

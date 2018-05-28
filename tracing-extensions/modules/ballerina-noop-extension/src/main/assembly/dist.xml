@@ -27,7 +27,7 @@
             <outputDirectory></outputDirectory>
             <scope>runtime</scope>
             <includes>
-                <include>org.ballerinalang.observability:ballerina-noop-extension:jar</include>
+                <include>org.ballerinalang:ballerina-noop-extension:jar</include>
             </includes>
         </dependencySet>
     </dependencySets>

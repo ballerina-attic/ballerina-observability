@@ -19,20 +19,26 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.ballerinalang.observability</groupId>
+    <parent>
+        <groupId>io.ballerina</groupId>
+        <artifactId>ballerina</artifactId>
+        <version>0.970.0-beta5</version>
+    </parent>
+
+    <groupId>org.ballerinalang</groupId>
     <artifactId>ballerina-observability-parent</artifactId>
+    <version>0.972.1-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <version>0.1.0-SNAPSHOT</version>
-    <name>Ballerina Observability - Parent</name>
+    <name>Ballerina - Observability Parent</name>
 
     <description>
         This contains various (tracing, metrics, logging) extensions that can be used with Ballerina Observability.
     </description>
-    <url>http://ballerinalang.org/</url>
+    <url>http://ballerina.io/</url>
     <organization>
         <name>WSO2</name>
-        <url>http://www.wso2.org/</url>
+        <url>http://wso2.org/</url>
     </organization>
     <licenses>
         <license>
@@ -196,9 +202,9 @@
                 <version>${prometheus.simple.client.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.ballerinalang.observability</groupId>
+                <groupId>org.ballerinalang</groupId>
                 <artifactId>ballerina-micrometer-extension</artifactId>
-                <version>${ballerina.observability.version}</version>
+                <version>${ballerina.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.opentracing</groupId>
@@ -440,8 +446,7 @@
     </build>
 
     <properties>
-        <ballerina.observability.version>0.1.0-SNAPSHOT</ballerina.observability.version>
-        <ballerina.version>0.970.0-beta5-SNAPSHOT</ballerina.version>
+        <ballerina.version>0.972.1-SNAPSHOT</ballerina.version>
         <project.scm.id>my-scm-server</project.scm.id>
         <maven.wagon.ssh.version>2.1</maven.wagon.ssh.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>

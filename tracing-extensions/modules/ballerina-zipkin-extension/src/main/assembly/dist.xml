@@ -27,7 +27,7 @@
             <outputDirectory></outputDirectory>
             <scope>runtime</scope>
             <includes>
-                <include>org.ballerinalang.observability:ballerina-zipkin-extension:jar</include>
+                <include>org.ballerinalang:ballerina-zipkin-extension:jar</include>
                 <include>io.opentracing.brave:brave-opentracing</include>
                 <include>io.zipkin.brave:brave</include>
                 <include>io.zipkin.reporter2:zipkin-reporter</include>
