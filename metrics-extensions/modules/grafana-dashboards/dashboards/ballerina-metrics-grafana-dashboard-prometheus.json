@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "DS_PROMETHEUS",
-      "label": "prometheus",
+      "name": "DS_PROMETHEUSDS",
+      "label": "PrometheusDS",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1524231870458,
+  "iteration": 1524808799686,
   "links": [],
   "panels": [
     {
@@ -60,7 +60,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "decimals": 0,
       "fill": 3,
       "gridPos": {
@@ -84,7 +84,7 @@
       "lines": true,
       "linewidth": 5,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -106,7 +106,8 @@
         {
           "expr": "up{instance=~\"$instance\"}",
           "format": "time_series",
-          "intervalFactor": 2,
+          "instant": false,
+          "intervalFactor": 1,
           "legendFormat": "{{instance}}",
           "refId": "A",
           "step": 120
@@ -115,7 +116,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Service Up / Down",
+      "title": "Ballerina Up / Down",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -133,7 +134,7 @@
         {
           "decimals": 0,
           "format": "short",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": "1",
           "min": "0",
@@ -150,6 +151,20 @@
       ]
     },
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 8,
+      "panels": [],
+      "repeat": null,
+      "title": "Ballerina HTTP Service Metrics",
+      "type": "row"
+    },
+    {
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
@@ -158,7 +173,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -169,9 +184,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 8,
+        "w": 6,
         "x": 0,
-        "y": 4
+        "y": 5
       },
       "id": 59,
       "interval": null,
@@ -210,7 +225,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(rate(http_requests_total[1m]))",
+          "expr": "\nsum(max_over_time(http_requests_total{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\"}[1m])-min_over_time(http_requests_total{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -239,7 +254,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -250,9 +265,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 4
+        "w": 6,
+        "x": 6,
+        "y": 5
       },
       "id": 60,
       "interval": null,
@@ -291,7 +306,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(rate(ballerina_http:HttpCachingClient_4XX_requests_total[1m])+rate(ballerina_http:HttpCachingClient_5XX_requests_total[1m]))",
+          "expr": "sum(max_over_time(ballerina_http:Connection_4XX_requests_total{instance=~\"$instance\"}[1m])-min_over_time(ballerina_http:Connection_4XX_requests_total{instance=~\"$instance\"}[1m])+max_over_time(ballerina_http:Connection_5XX_requests_total{instance=~\"$instance\"}[1m])-min_over_time(ballerina_http:Connection_5XX_requests_total{instance=~\"$instance\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -320,7 +335,89 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
+      "decimals": null,
+      "format": "none",
+      "gauge": {
+        "maxValue": 0,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 5
+      },
+      "id": 76,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "__name__",
+      "targets": [
+        {
+          "expr": "sum(http_inprogress_requests{instance=~\"$instance\",service=~\"$service\",resource=~\"$resource\"})",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Inprogress Requests",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -331,9 +428,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 4
+        "w": 6,
+        "x": 18,
+        "y": 5
       },
       "id": 40,
       "interval": null,
@@ -369,12 +466,14 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "",
+      "tableColumn": "Value",
       "targets": [
         {
-          "expr": "sum(ballerina_http:HttpCachingClient_4XX_requests_total+ballerina_http:HttpCachingClient_5XX_requests_total)*100/sum(ballerina_http:Connection_requests_total)",
+          "expr": "sum(max_over_time(ballerina_http:Connection_4XX_requests_total{instance=~\"$instance\"}[1m]) - min_over_time(ballerina_http:Connection_4XX_requests_total{instance=~\"$instance\"}[1m])+max_over_time(ballerina_http:Connection_5XX_requests_total{instance=~\"$instance\"}[1m]) - min_over_time(ballerina_http:Connection_5XX_requests_total{instance=~\"$instance\"}[1m]))*100/sum(max_over_time(ballerina_http:Connection_requests_total{instance=~\"$instance\"}[1m]) - min_over_time(ballerina_http:Connection_requests_total{instance=~\"$instance\"}[1m]))",
           "format": "time_series",
           "hide": false,
+          "instant": false,
+          "interval": "",
           "intervalFactor": 1,
           "refId": "A"
         }
@@ -393,25 +492,11 @@
       "valueName": "current"
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 8
-      },
-      "id": 8,
-      "panels": [],
-      "repeat": null,
-      "title": "Ballerina HTTP Service Metrics",
-      "type": "row"
-    },
-    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
       "fill": 1,
       "gridPos": {
@@ -446,28 +531,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(http_requests_total{instance=~\"$instance\",http_method=~\"$httpmethod\",http_url=~\"$httpurl\",protocol=~\"$protocol\",resource=~\"$resource\",service=~\"$service\"}[1m])",
+          "expr": "sum without (http_status_code)(rate(http_requests_total{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\"}[1m]))",
           "format": "time_series",
           "hide": false,
+          "instant": false,
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}---{{http_method}}--{{http_url}}--{{protocol}}--{{resource}}--{{service}}--1m",
+          "legendFormat": "Instance: {{instance}}, Protocol: {{protocol}}, Method: {{http_method}}, URL: {{http_url}}",
           "refId": "A"
-        },
-        {
-          "expr": "rate(http_requests_total{instance=~\"$instance\",http_method=~\"$httpmethod\",http_url=~\"$httpurl\",protocol=~\"$protocol\",resource=~\"$resource\",service=~\"$service\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}---{{http_method}}--{{http_url}}--{{protocol}}--{{resource}}--{{service}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(http_requests_total{instance=~\"$instance\",http_method=~\"$httpmethod\",http_url=~\"$httpurl\",protocol=~\"$protocol\",resource=~\"$resource\",service=~\"$service\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}---{{http_method}}--{{http_url}}--{{protocol}}--{{resource}}--{{service}}--15m",
-          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -489,8 +560,9 @@
       },
       "yaxes": [
         {
+          "decimals": null,
           "format": "ops",
-          "label": "",
+          "label": "Requests / sec",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -511,7 +583,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
       "fill": 1,
       "gridPos": {
@@ -546,11 +618,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "http_response_time_seconds{instance=~\"$instance\",http_method=~\"$httpmethod\",http_url=~\"$httpurl\",protocol=~\"$protocol\",resource=~\"$resource\",service=~\"$service\"}",
+          "expr": "http_response_time_seconds{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}---{{http_method}}--{{http_url}}--{{protocol}}--{{resource}}--{{service}}--{{quantile}}",
+          "legendFormat": "Instance: {{instance}}, Protocol: {{protocol}}, Method: {{http_method}}, URL: {{http_url}}, Quantile: {{quantile}}",
           "refId": "A"
         }
       ],
@@ -574,7 +646,7 @@
       "yaxes": [
         {
           "format": "s",
-          "label": "",
+          "label": "Response Time",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -591,40 +663,30 @@
       ]
     },
     {
-      "collapsed": false,
+      "aliasColors": {
+        "1xx Informational responses": "#5195ce",
+        "2xx Successful responses": "#7eb26d",
+        "3xx Redirections": "#962d82",
+        "4xx Client errors": "#e0752d",
+        "5xx Server errors": "#bf1b00"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUSDS}",
+      "fill": 1,
       "gridPos": {
-        "h": 1,
-        "w": 24,
+        "h": 9,
+        "w": 12,
         "x": 0,
         "y": 18
       },
-      "id": 33,
-      "panels": [],
-      "title": "Ballerina HTTP Service Status Code Rates",
-      "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 19
-      },
-      "id": 34,
+      "id": 74,
       "legend": {
-        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -643,34 +705,46 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ballerina_http:Connection_1XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[1m])",
+          "expr": "rate(ballerina_http:Connection_1XX_requests_total{instance=~\"$instance\", action=~\"respond\"}[1m])",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
+          "legendFormat": "1xx Informational responses - Instance: {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "rate(ballerina_http:Connection_1XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[5m])",
+          "expr": "rate(ballerina_http:Connection_2XX_requests_total{instance=~\"$instance\", action=~\"respond\"}[1m])",
           "format": "time_series",
-          "hide": false,
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
+          "legendFormat": "2xx Successful responses - Instance: {{instance}}",
           "refId": "B"
         },
         {
-          "expr": "rate(ballerina_http:Connection_1XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[15m])",
+          "expr": "rate(ballerina_http:Connection_3XX_requests_total{instance=~\"$instance\", action=~\"respond\"}[1m])",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
+          "legendFormat": "3xx Redirections - Instance: {{instance}}",
           "refId": "C"
+        },
+        {
+          "expr": "rate(ballerina_http:Connection_4XX_requests_total{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "4xx Client errors - Instance: {{instance}}",
+          "refId": "D"
+        },
+        {
+          "expr": "rate(ballerina_http:Connection_5XX_requests_total{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "5xx Server errors - Instance: {{instance}}",
+          "refId": "E"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "1XX Informational Response Rate",
+      "title": "HTTP Status Codes",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -686,8 +760,8 @@
       },
       "yaxes": [
         {
-          "format": "ops",
-          "label": "",
+          "format": "short",
+          "label": "Requests / sec",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -705,19 +779,18 @@
     },
     {
       "aliasColors": {},
-      "bars": false,
+      "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
+      "datasource": "${DS_PROMETHEUSDS}",
       "fill": 1,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 19
+        "y": 18
       },
-      "id": 36,
+      "id": 78,
       "legend": {
         "alignAsTable": true,
         "avg": false,
@@ -729,7 +802,7 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
@@ -743,351 +816,36 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ballerina_http:Connection_2XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[1m])",
+          "expr": "topk(5,http_requests_total)",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
+          "legendFormat": "Instance: {{instance}}, Protocol: {{protocol}}, Method: {{http_method}}, URL: {{http_url}}",
           "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:Connection_2XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:Connection_2XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "2XX Successful Response Rate",
+      "title": "Top 5 services",
       "tooltip": {
-        "shared": true,
+        "shared": false,
         "sort": 0,
         "value_type": "individual"
       },
       "type": "graph",
       "xaxis": {
         "buckets": null,
-        "mode": "time",
+        "mode": "series",
         "name": null,
-        "show": true,
-        "values": []
+        "show": false,
+        "values": [
+          "avg"
+        ]
       },
       "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
         {
           "format": "short",
           "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 28
-      },
-      "id": 35,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(ballerina_http:Connection_3XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[1m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:Connection_3XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:Connection_3XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "3XX Redirection Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 28
-      },
-      "id": 38,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(ballerina_http:Connection_4XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[1m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:Connection_4XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:Connection_4XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "4XX Client Error Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 37
-      },
-      "id": 37,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(ballerina_http:Connection_5XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[1m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:Connection_5XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:Connection_5XX_requests_total{instance=~\"$instance\",action=~\"$ballerinaaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "5XX Server Error Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -1109,7 +867,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 46
+        "y": 27
       },
       "id": 18,
       "panels": [],
@@ -1117,18 +875,345 @@
       "type": "row"
     },
     {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 28
+      },
+      "id": 81,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "70%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum( max_over_time({__name__=~\".*.:.*.Client_requests_total\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*.:.*.Client_requests_total\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) ) ",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Requests / min",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 28
+      },
+      "id": 82,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum( max_over_time({__name__=~\".*.:.*.Client_4XX_requests_total\", instance=~\"$instance\", action=~\"$http-client-action\"}[1m]) - min_over_time({__name__=~\".*.:.*.Client_4XX_requests_total\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http-client-action\"}[1m])+ max_over_time({__name__=~\".*.:.*.Client_5XX_requests_total\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http-client-action\"}[1m]) - min_over_time({__name__=~\".*.:.*.Client_5XX_requests_total\", instance=~\"$instance\", action=~\"$http-client-action\"}[1m]) )",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Errors /  min",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
+      "decimals": null,
+      "format": "none",
+      "gauge": {
+        "maxValue": 0,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 28
+      },
+      "id": 83,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "__name__",
+      "targets": [
+        {
+          "expr": "sum({__name__=~\".*.:.*.Client_inprogress_requests\", action=~\"$http_client_action\", instance=~\"$instance\"})",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Inprogress Requests",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 28
+      },
+      "id": 84,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "%",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "Value",
+      "targets": [
+        {
+          "expr": "sum( max_over_time({__name__=~\".*.:.*.Client_4XX_requests_total\", instance=~\"$instance\", action=~\"$http-client-action\"}[1m]) - min_over_time({__name__=~\".*.:.*.Client_4XX_requests_total\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http-client-action\"}[1m])+ max_over_time({__name__=~\".*.:.*.Client_5XX_requests_total\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http-client-action\"}[1m]) - min_over_time({__name__=~\".*.:.*.Client_5XX_requests_total\", instance=~\"$instance\", action=~\"$http-client-action\"}[1m]))*100/sum( max_over_time({__name__=~\".*.:.*.Client_requests_total\", instance=~\"$instance\", action=~\"$http-client-action\"}[1m]) - min_over_time({__name__=~\".*.:.*.Client_requests_total\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http-client-action\"}[1m]))\n",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Error %",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
       "fill": 1,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 47
+        "y": 32
       },
       "id": 20,
       "legend": {
@@ -1155,28 +1240,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum without(http_status_code)(rate(ballerina_http:HttpCachingClient_requests_total{action=~\"$clientaction\",http_method=~\"$httpmethod\",http_url=~\"$httpurl\",instance=~\"$instance\",peer_hostname=~\"$peerhostname\",\npeer_port=~\"$peerport\"}[1m]))",
+          "expr": "sum (rate({__name__=~\".*.:.*.Client_requests_total\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",peer_address=~\"$peer_address\",http_url=~\"$http_url\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--{{http_method}}--{{http_url}}--{{peer_hostname}}--{{peer_port}}--1m",
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Method: {{http_method}}, Peer Address: {{peer_address}}, URL: {{http_url}}",
           "refId": "A"
-        },
-        {
-          "expr": "sum without(http_status_code)(rate(ballerina_http:HttpCachingClient_requests_total{action=~\"$clientaction\",http_method=~\"$httpmethod\",http_url=~\"$httpurl\",instance=~\"$instance\",peer_hostname=~\"$peerhostname\",\npeer_port=~\"$peerport\"}[5m]))",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--{{http_method}}--{{http_url}}--{{peer_hostname}}--{{peer_port}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "sum without(http_status_code)(rate(ballerina_http:HttpCachingClient_requests_total{action=~\"$clientaction\",http_method=~\"$httpmethod\",http_url=~\"$httpurl\",instance=~\"$instance\",peer_hostname=~\"$peerhostname\",\npeer_port=~\"$peerport\"}[15m]))",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--{{http_method}}--{{http_url}}--{{peer_hostname}}--{{peer_port}}--15m",
-          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -1199,7 +1268,7 @@
       "yaxes": [
         {
           "format": "ops",
-          "label": "Requests Rate",
+          "label": "Requests / sec",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -1220,14 +1289,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
       "fill": 1,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 47
+        "y": 32
       },
       "id": 24,
       "legend": {
@@ -1254,12 +1323,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum without(http_status_code)(ballerina_http:HttpCachingClient_response_time_seconds{action=~\"$clientaction\",http_method=~\"$httpmethod\",http_url=~\"$httpurl\",instance=~\"$instance\",peer_hostname=~\"$peerhostname\",\npeer_port=~\"$peerport\"})",
+          "expr": "sum without(http_status_code) ({__name__=~\".*.:.*.Client_response_time_seconds\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",peer_address=~\"$peer_address\",http_url=~\"$http_url\"})",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--{{http_method}}--{{http_url}}--{{peer_hostname}}--{{peer_port}}--{{quantile}}",
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Method: {{http_method}}, Peer Address: {{peer_address}}, URL: {{http_url}}",
           "refId": "A"
         }
       ],
@@ -1282,8 +1351,208 @@
       },
       "yaxes": [
         {
+          "decimals": null,
           "format": "s",
-          "label": "",
+          "label": "Response Time",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {
+        "1xx Informational responses": "#5195ce",
+        "2xx Successful responses": "#7eb26d",
+        "3xx Redirections": "#962d82",
+        "4xx Client errors": "#e0752d",
+        "5xx Server errors": "#bf1b00"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUSDS}",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 41
+      },
+      "id": 79,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate({__name__=~\".*.:.*.Client_1XX_requests_total\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "1xx Informational responses - Instance: {{instance}}, Action: {{action}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate({__name__=~\".*.:.*.Client_2XX_requests_total\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "2xx Successful responses - Instance: {{instance}}, Action: {{action}}",
+          "refId": "B"
+        },
+        {
+          "expr": "rate({__name__=~\".*.:.*.Client_3XX_requests_total\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "3xx Redirections - Instance: {{instance}}, Action: {{action}}",
+          "refId": "C"
+        },
+        {
+          "expr": "rate({__name__=~\".*.:.*.Client_4XX_requests_total\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "4xx Client errors - Instance: {{instance}}, Action: {{action}}",
+          "refId": "D"
+        },
+        {
+          "expr": "rate({__name__=~\".*.:.*.Client_5XX_requests_total\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "5xx Server errors - Instance: {{instance}}, Action: {{action}}",
+          "refId": "E"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "HTTP Status Codes",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "Requests / sec",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUSDS}",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 41
+      },
+      "id": 80,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "topk(5,ballerina_http:HttpCachingClient_requests_total)",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Method: {{http_method}}, Peer Address: {{peer_address}}, URL: {{http_url}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top 5 remote services",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "series",
+        "name": null,
+        "show": false,
+        "values": [
+          "avg"
+        ]
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
           "logBase": 1,
           "max": null,
           "min": null,
@@ -1305,539 +1574,353 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 56
-      },
-      "id": 31,
-      "panels": [],
-      "title": "Ballerina HTTP Client Status Code Rates",
-      "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 57
-      },
-      "id": 25,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_1XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[1m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_1XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_1XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "1XX Informational Response Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 57
-      },
-      "id": 28,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_2XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[1m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_2XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_2XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "2XX Successful Response Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 66
-      },
-      "id": 27,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_3XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[1m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_3XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_3XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "3XX Redirection Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 66
-      },
-      "id": 29,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_4XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[1m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_4XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_4XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "4XX Client Error Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 75
-      },
-      "id": 26,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_5XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[1m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--1m",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_5XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_http:HttpCachingClient_5XX_requests_total{instance=~\"$instance\",action=~\"$clientaction\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--15m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "5XX Server Error Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 84
+        "y": 50
       },
       "id": 64,
       "panels": [],
-      "title": "Ballerina SQL Connector Metrics",
+      "title": "Ballerina SQL Client Metrics",
       "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 51
+      },
+      "id": 85,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "70%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum(max_over_time(ballerina_sql:CallerActions_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])-min_over_time(ballerina_sql:CallerActions_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Executions / min",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 51
+      },
+      "id": 86,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum (max_over_time(ballerina_sql:CallerActions_failed_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerina_sql:CallerActions_failed_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Errors /  min",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
+      "decimals": null,
+      "format": "none",
+      "gauge": {
+        "maxValue": 0,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 51
+      },
+      "id": 87,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "__name__",
+      "targets": [
+        {
+          "expr": "sum(ballerina_sql:CallerActions_inprogress_requests{action=~\"$db_action\"})",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Inprogress Statements",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_PROMETHEUSDS}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 51
+      },
+      "id": 88,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "%",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "Value",
+      "targets": [
+        {
+          "expr": "sum (max_over_time(ballerina_sql:CallerActions_failed_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerina_sql:CallerActions_failed_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))*100/sum(max_over_time(ballerina_sql:CallerActions_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerina_sql:CallerActions_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Error %",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
       "fill": 1,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 85
+        "y": 55
       },
       "id": 66,
       "legend": {
@@ -1864,29 +1947,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ballerina_sql:CallerActions_requests_total{instance=~\"$instance\",action=~\"$dbaction\",db_statement=~\"$dbstatement\"}[1m])",
+          "expr": "rate(ballerina_sql:CallerActions_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--{{job}}--{{db_statement}}--1m",
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
           "refId": "A"
-        },
-        {
-          "expr": "rate(ballerina_sql:CallerActions_requests_total{instance=~\"$instance\",action=~\"$dbaction\",db_statement=~\"$dbstatement\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--{{job}}--{{db_statement}}--5m",
-          "refId": "B"
-        },
-        {
-          "expr": "rate(ballerina_sql:CallerActions_requests_total{instance=~\"$instance\",action=~\"$dbaction\",db_statement=~\"$dbstatement\"}[15m])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--{{job}}--{{db_statement}}--15m",
-          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -1909,7 +1976,7 @@
       "yaxes": [
         {
           "format": "ops",
-          "label": "",
+          "label": "Statements / sec",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -1930,14 +1997,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
       "fill": 1,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 85
+        "y": 55
       },
       "id": 68,
       "legend": {
@@ -1964,10 +2031,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "ballerina_sql:CallerActions_response_time_seconds{action=~\"$dbaction\",instance=~\"$instance\",db_statement=~\"$dbstatement\"}",
+          "expr": "ballerina_sql:CallerActions_response_time_seconds{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--{{action}}--{{db_statement}}--{{quantile}}",
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Quantile: {{quantile}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
           "refId": "A"
         }
       ],
@@ -1991,7 +2058,175 @@
       "yaxes": [
         {
           "format": "s",
-          "label": "",
+          "label": "Response Time",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUSDS}",
+      "description": "",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 64
+      },
+      "id": 89,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(ballerina_sql:CallerActions_failed_requests_total{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Ballerina SQL Errors",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "label": "Statements / sec",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUSDS}",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 64
+      },
+      "id": 90,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "topk(5,ballerina_sql:CallerActions_requests_total)",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "Instance: {{instance}}, Action: {{action}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top 5 SQL actions",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "series",
+        "name": null,
+        "show": false,
+        "values": [
+          "avg"
+        ]
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
           "logBase": 1,
           "max": null,
           "min": null,
@@ -2013,7 +2248,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 94
+        "y": 73
       },
       "id": 72,
       "panels": [],
@@ -2025,14 +2260,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${DS_PROMETHEUSDS}",
       "description": "Scheduler Metrics should be enabled in Ballerina",
       "fill": 1,
       "gridPos": {
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 95
+        "y": 74
       },
       "id": 70,
       "legend": {
@@ -2064,7 +2299,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--ballerina_scheduler_waiting_for_response_worker_count",
+          "legendFormat": "Instance: {{instance}} - Workers waiting for response",
           "refId": "A"
         },
         {
@@ -2072,7 +2307,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--ballerina_scheduler_waiting_for_lock_worker_count",
+          "legendFormat": "Instance: {{instance}} - Workers waiting for lock",
           "refId": "B"
         },
         {
@@ -2080,7 +2315,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--ballerina_scheduler_ready_worker_count",
+          "legendFormat": "Instance: {{instance}}  - Ready to run workers",
           "refId": "C"
         },
         {
@@ -2088,7 +2323,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--ballerina_scheduler_running_worker_count",
+          "legendFormat": "Instance: {{instance}} - Running workers",
           "refId": "D"
         },
         {
@@ -2096,7 +2331,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--ballerina_scheduler_paused_worker_count",
+          "legendFormat": "Instance: {{instance}} - Paused workers",
           "refId": "E"
         },
         {
@@ -2104,7 +2339,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}--ballerina_scheduler_excepted_worker_count",
+          "legendFormat": "Instance: {{instance}} - Excepted workers",
           "refId": "F"
         }
       ],
@@ -2148,13 +2383,17 @@
   "refresh": "10s",
   "schemaVersion": 16,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "ballerina",
+    "http",
+    "sql"
+  ],
   "templating": {
     "list": [
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${DS_PROMETHEUSDS}",
         "hide": 0,
         "includeAll": true,
         "label": "instance",
@@ -2174,87 +2413,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "http-method",
-        "multi": true,
-        "name": "httpmethod",
-        "options": [],
-        "query": "label_values(http_method)",
-        "refresh": 1,
-        "regex": "",
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "http-url",
-        "multi": true,
-        "name": "httpurl",
-        "options": [],
-        "query": "label_values(http_url)",
-        "refresh": 1,
-        "regex": "",
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "protocol",
-        "multi": true,
-        "name": "protocol",
-        "options": [],
-        "query": "label_values(protocol)",
-        "refresh": 1,
-        "regex": "",
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "resource",
-        "multi": true,
-        "name": "resource",
-        "options": [],
-        "query": "label_values(resource)",
-        "refresh": 1,
-        "regex": "",
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${DS_PROMETHEUSDS}",
         "hide": 0,
         "includeAll": true,
         "label": "service",
@@ -2274,15 +2433,15 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${DS_PROMETHEUSDS}",
         "hide": 0,
         "includeAll": true,
-        "label": "ballerina-action",
+        "label": "resource",
         "multi": true,
-        "name": "ballerinaaction",
+        "name": "resource",
         "options": [],
-        "query": "label_values(ballerina_http:Connection_requests_total,action)",
-        "refresh": 2,
+        "query": "label_values(resource)",
+        "refresh": 1,
         "regex": "",
         "sort": 0,
         "tagValuesQuery": "",
@@ -2294,12 +2453,92 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${DS_PROMETHEUSDS}",
         "hide": 0,
         "includeAll": true,
-        "label": "client-action",
+        "label": "protocol",
         "multi": true,
-        "name": "clientaction",
+        "name": "protocol",
+        "options": [],
+        "query": "label_values(protocol)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUSDS}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "http-method",
+        "multi": true,
+        "name": "http_method",
+        "options": [],
+        "query": "label_values(http_method)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUSDS}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "http-url",
+        "multi": true,
+        "name": "http_url",
+        "options": [],
+        "query": "label_values(http_url)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUSDS}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "peer-address",
+        "multi": true,
+        "name": "peer_address",
+        "options": [],
+        "query": "label_values(peer_address)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUSDS}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "http-client-action",
+        "multi": true,
+        "name": "http_client_action",
         "options": [],
         "query": "label_values(ballerina_http:HttpCachingClient_requests_total,action)",
         "refresh": 1,
@@ -2314,55 +2553,15 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "peer-port",
-        "multi": true,
-        "name": "peerport",
-        "options": [],
-        "query": "label_values(peer_port)",
-        "refresh": 2,
-        "regex": "",
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "peer-hostname",
-        "multi": true,
-        "name": "peerhostname",
-        "options": [],
-        "query": "label_values(peer_hostname)",
-        "refresh": 2,
-        "regex": "",
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${DS_PROMETHEUSDS}",
         "hide": 0,
         "includeAll": true,
         "label": "db-action",
         "multi": true,
-        "name": "dbaction",
+        "name": "db_action",
         "options": [],
-        "query": "label_values(ballerina_sql:CallerActions_requests_total, action)",
-        "refresh": 2,
+        "query": "label_values(ballerina_sql:CallerActions_requests_total,action)",
+        "refresh": 1,
         "regex": "",
         "sort": 0,
         "tagValuesQuery": "",
@@ -2374,15 +2573,35 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${DS_PROMETHEUSDS}",
         "hide": 0,
         "includeAll": true,
         "label": "db-statement",
         "multi": true,
-        "name": "dbstatement",
+        "name": "db_statement",
         "options": [],
         "query": "label_values(ballerina_sql:CallerActions_requests_total,db_statement)",
-        "refresh": 2,
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUSDS}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "db-instance",
+        "multi": true,
+        "name": "db_instance",
+        "options": [],
+        "query": "label_values(ballerina_sql:CallerActions_requests_total,db_instance)",
+        "refresh": 1,
         "regex": "",
         "sort": 0,
         "tagValuesQuery": "",
@@ -2394,7 +2613,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -2425,5 +2644,5 @@
   "timezone": "",
   "title": "Ballerina Metrics",
   "uid": "8FPN-nmik",
-  "version": 6
+  "version": 1
 }
