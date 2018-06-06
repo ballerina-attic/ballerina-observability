@@ -27,7 +27,7 @@
             <outputDirectory></outputDirectory>
             <scope>runtime</scope>
             <includes>
-                <include>org.ballerinalang.observability:ballerina-micrometer-extension:jar</include>
+                <include>org.ballerinalang:ballerina-micrometer-extension:jar</include>
                 <include>io.micrometer:micrometer-core</include>
                 <include>org.hdrhistogram:HdrHistogram</include>
                 <include>org.latencyutils:LatencyUtils</include>
