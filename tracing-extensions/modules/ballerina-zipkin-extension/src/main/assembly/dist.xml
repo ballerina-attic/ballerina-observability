@@ -33,6 +33,7 @@
                 <include>io.zipkin.reporter2:zipkin-reporter</include>
                 <include>io.zipkin.zipkin2:zipkin</include>
                 <include>io.zipkin.reporter2:zipkin-sender-okhttp3</include>
+                <include>io.zipkin.reporter2:zipkin-sender-urlconnection</include>
             </includes>
         </dependencySet>
     </dependencySets>

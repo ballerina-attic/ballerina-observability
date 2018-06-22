@@ -22,17 +22,26 @@ import brave.opentracing.BraveTracer;
 import io.opentracing.Tracer;
 import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.config.ConfigRegistry;
+import org.ballerinalang.util.observability.ObservabilityConstants;
 import org.ballerinalang.util.tracer.OpenTracer;
 import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
+import zipkin2.codec.SpanBytesEncoder;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Sender;
 import zipkin2.reporter.okhttp3.OkHttpSender;
+import zipkin2.reporter.urlconnection.URLConnectionSender;
 
 import java.io.PrintStream;
 import java.util.Objects;
 
+import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_API_CONTEXT;
+import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_API_VERSION;
+import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_COMPRESSION_ENABLED;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_HOSTNAME;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.DEFAULT_REPORTER_PORT;
+import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_API_CONTEXT_CONFIG;
+import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_API_VERSION;
+import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_COMPRESSION_ENABLED_CONFIG;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_HOST_NAME_CONFIG;
 import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTER_PORT_CONFIG;
 
@@ -43,20 +52,29 @@ import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTE
 public class OpenTracingExtension implements OpenTracer {
 
     private static final PrintStream console = System.out;
-    private static final PrintStream consoleError = System.err;
     private static final String NAME = "zipkin";
 
     private ConfigRegistry configRegistry;
     private String hostname;
     private int port;
+    private String apiContext;
+    private boolean compressionEnabled;
+    private String apiVersion;
 
     @Override
     public void init() throws InvalidConfigurationException {
         configRegistry = ConfigRegistry.getInstance();
-        hostname = configRegistry.getConfigOrDefault(REPORTER_HOST_NAME_CONFIG, DEFAULT_REPORTER_HOSTNAME);
-        port = Integer.parseInt(configRegistry.getConfigOrDefault(REPORTER_PORT_CONFIG,
+        hostname = configRegistry.getConfigOrDefault(getFullQualifiedConfig(REPORTER_HOST_NAME_CONFIG),
+                DEFAULT_REPORTER_HOSTNAME);
+        port = Integer.parseInt(configRegistry.getConfigOrDefault(getFullQualifiedConfig(REPORTER_PORT_CONFIG),
                 String.valueOf(DEFAULT_REPORTER_PORT)));
-
+        apiContext = configRegistry.getConfigOrDefault(getFullQualifiedConfig(REPORTER_API_CONTEXT_CONFIG),
+                DEFAULT_REPORTER_API_CONTEXT);
+        compressionEnabled = Boolean.parseBoolean(configRegistry.getConfigOrDefault(
+                getFullQualifiedConfig(REPORTER_COMPRESSION_ENABLED_CONFIG),
+                String.valueOf(DEFAULT_REPORTER_COMPRESSION_ENABLED)));
+        apiVersion = configRegistry.getConfigOrDefault(getFullQualifiedConfig(REPORTER_API_VERSION),
+                DEFAULT_REPORTER_API_VERSION);
         console.println("ballerina: started publishing tracers to Zipkin on " + hostname + ":" + port);
     }
 
@@ -66,14 +84,24 @@ public class OpenTracingExtension implements OpenTracer {
         if (Objects.isNull(configRegistry)) {
             throw new IllegalStateException("Tracer not initialized with configurations");
         }
+        if (apiVersion.equalsIgnoreCase(DEFAULT_REPORTER_API_VERSION)) {
+            Sender sender = OkHttpSender.create("http://" + hostname + ":" + port + apiContext);
+            return BraveTracer.newBuilder(Tracing.newBuilder()
+                    .localServiceName(serviceName)
+                    .spanReporter(AsyncReporter.create(sender))
+                    .build()).activeScopeManager(NoOpScopeManager.INSTANCE).build();
+        } else {
+            return BraveTracer.newBuilder(Tracing.newBuilder()
+                    .localServiceName(serviceName)
+                    .spanReporter(AsyncReporter.builder(URLConnectionSender.create("http://" + hostname + ":" + port
+                            + apiContext).toBuilder().compressionEnabled(compressionEnabled).build())
+                            .build(SpanBytesEncoder.JSON_V1))
+                    .build()).activeScopeManager(NoOpScopeManager.INSTANCE).build();
+        }
+    }
 
-        Sender sender = OkHttpSender.create(
-                "http://" +
-                        hostname + ":" + port + Constants.REPORTING_API_CONTEXT);
-        return BraveTracer.newBuilder(Tracing.newBuilder()
-                .localServiceName(serviceName)
-                .spanReporter(AsyncReporter.create(sender))
-                .build()).activeScopeManager(NoOpScopeManager.INSTANCE).build();
+    private String getFullQualifiedConfig(String configName) {
+        return ObservabilityConstants.CONFIG_TABLE_TRACING + "." + NAME + "." + configName;
     }
 
     @Override
