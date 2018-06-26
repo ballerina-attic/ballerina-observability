@@ -24,14 +24,18 @@ package org.ballerinalang.observe.trace.extension.zipkin;
  * that are used by the {@link OpenTracingExtension}.
  */
 public class Constants {
-    static final String TRACER_NAME = "zipkin";
 
-    static final String REPORTING_API_CONTEXT = "/api/v2/spans";
     static final String REPORTER_HOST_NAME_CONFIG = "reporter.hostname";
     static final String REPORTER_PORT_CONFIG = "reporter.port";
+    static final String REPORTER_API_CONTEXT_CONFIG = "reporter.api.context";
+    static final String REPORTER_COMPRESSION_ENABLED_CONFIG = "reporter.compression.enabled";
+    static final String REPORTER_API_VERSION = "reporter.api.version";
 
+    static final String DEFAULT_REPORTER_API_CONTEXT = "/api/v2/spans";
     static final String DEFAULT_REPORTER_HOSTNAME = "localhost";
     static final int DEFAULT_REPORTER_PORT = 9411;
+    static final boolean DEFAULT_REPORTER_COMPRESSION_ENABLED = true;
+    static final String DEFAULT_REPORTER_API_VERSION = "v2";
 
     private Constants() {
 
