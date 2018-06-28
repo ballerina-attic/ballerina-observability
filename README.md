@@ -74,6 +74,20 @@ Check the issue tracker for open issues that interest you. We look forward to re
 
 Ballerina code is distributed under [Apache license 2.0](https://github.com/ballerina-platform/ballerina-lang/blob/master/LICENSE).
 
+## Extensions available
+
+The following are the extensions available in this repository.
+
+Tracing Extensions can be found here [https://github.com/ballerina-platform/ballerina-observability/tree/master/tracing-extensions/modules](https://github.com/ballerina-platform/ballerina-observability/tree/master/tracing-extensions/modules)
+- ballerina-jaeger-extension
+- ballerina-zipkin-extension
+- ballerina-noop-extension
+
+Metrics Extensions can be found here [https://github.com/ballerina-platform/ballerina-observability/tree/master/metrics-extensions/modules](https://github.com/ballerina-platform/ballerina-observability/tree/master/metrics-extensions/modules)
+- ballerina-micrometer-extension
+- ballerina-prometheus-extension
+
+
 ## Useful links
 
 * The ballerina-dev@googlegroups.com mailing list is for discussing code changes to the Ballerina project.
