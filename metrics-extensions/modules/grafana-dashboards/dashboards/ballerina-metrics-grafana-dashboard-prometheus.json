@@ -2644,6 +2644,6 @@
   "timezone": "",
   "title": "Ballerina Metrics",
   "uid": "8FPN-nmik",
-  "version": 1,
+  "version": 2,
   "description": "Monitor Ballerina HTTP/HTTPs Services, HTTP Clients and SQL Clients"
 }
