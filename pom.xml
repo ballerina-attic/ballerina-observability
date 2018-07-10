@@ -257,6 +257,41 @@
                 <version>${zipkin.reporter.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.wso2.sp</groupId>
+                <artifactId>org.wso2.sp.open.tracer.client</artifactId>
+                <version>${wso2sp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics-common</groupId>
+                <artifactId>org.wso2.carbon.databridge.agent</artifactId>
+                <version>${carbon.analytics-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics-common</groupId>
+                <artifactId>org.wso2.carbon.databridge.commons</artifactId>
+                <version>${carbon.analytics-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.log4j.wso2</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${wso2.log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.config</groupId>
+                <artifactId>org.wso2.carbon.config</artifactId>
+                <version>${carbon.config.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.secvault</groupId>
+                <artifactId>org.wso2.carbon.secvault</artifactId>
+                <version>${carbon.securevault.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics-common</groupId>
+                <artifactId>org.wso2.carbon.databridge.commons.thrift</artifactId>
+                <version>${carbon.analytics-common.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
                 <version>${testng.version}</version>
@@ -540,6 +575,11 @@
         <brave.zipkin.version>4.17.1</brave.zipkin.version>
         <zipkin.reporter.version>2.5.0</zipkin.reporter.version>
         <zipkin.version>2.6.1</zipkin.version>
+        <wso2sp.version>4.3.0-SNAPSHOT</wso2sp.version>
+        <carbon.analytics-common.version>6.0.64</carbon.analytics-common.version>
+        <wso2.log4j.version>1.2.17.wso2v1</wso2.log4j.version>
+        <carbon.config.version>2.1.5</carbon.config.version>
+        <carbon.securevault.version>5.0.10</carbon.securevault.version>
     </properties>
 
 </project>

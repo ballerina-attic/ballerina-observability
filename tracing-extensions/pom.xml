@@ -37,6 +37,7 @@
         <module>modules/ballerina-jaeger-extension</module>
         <module>modules/ballerina-zipkin-extension</module>
         <module>modules/ballerina-noop-extension</module>
+        <module>modules/ballerina-sp-extension</module>
     </modules>
 
 </project>
