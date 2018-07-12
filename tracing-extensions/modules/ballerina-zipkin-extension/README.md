@@ -28,5 +28,5 @@ reporter.port=9411
 ```
 - Run your Ballerina service with that `ballerina.conf` file.
   - Either place `ballerina.conf` in your applications directory.
-  - Or use `--conf path/to/ballerina.conf`
+  - Or use `--config path/to/ballerina.conf`
 - Once everything is up and running, you can use zipkin dashboard to view traces.
