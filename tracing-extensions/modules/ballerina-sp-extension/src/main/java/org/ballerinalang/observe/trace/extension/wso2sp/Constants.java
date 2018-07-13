@@ -34,11 +34,9 @@ public class Constants {
     static final String WSO2SP_REPORTER_TRUSTSTORE_PASSWORD = "javax.net.ssl.trustStorePassword";
     static final String DEFAULT_WSO2SP_REPORTER_PUBLISHER_TYPE_CONFIG = "thrift";
     static final String DEFAULT_WSO2SP_REPORTER_USERNAME = "admin";
-    static final String DEFAULT_WSO2SP_REPORTER_PASSWORD = "admin";
     static final String DEFAULT_WSO2SP_REPORTER_URL = "tcp://localhost:7611";
     static final String DEFAULT_WSO2SP_REPORTER_AUTHURL = "ssl://localhost:7711";
     static final String DEFAULT_WSO2SP_REPORTER_SERVICE_NAME = "wso2_ballerina";
-    static final String DEFAULT_WSO2SP_REPORTER_TRUSTSTORE_PASSWORD = "wso2carbon";
     private Constants() {
 
     }

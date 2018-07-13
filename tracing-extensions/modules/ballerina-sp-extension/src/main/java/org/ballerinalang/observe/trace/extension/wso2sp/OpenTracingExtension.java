@@ -31,10 +31,8 @@ import java.io.PrintStream;
 import java.util.Properties;
 
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_AUTHURL;
-import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_PASSWORD;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_PUBLISHER_TYPE_CONFIG;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_SERVICE_NAME;
-import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_TRUSTSTORE_PASSWORD;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_URL;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_USERNAME;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_AUTHURL;
@@ -71,7 +69,7 @@ public class OpenTracingExtension implements OpenTracer {
                         (WSO2SP_REPORTER_USERNAME), DEFAULT_WSO2SP_REPORTER_USERNAME));
         tracerProperties.setProperty(WSO2SP_REPORTER_PASSWORD,
                 configRegistry.getConfigOrDefault(getFullQualifiedConfig
-                        (WSO2SP_REPORTER_PASSWORD), DEFAULT_WSO2SP_REPORTER_PASSWORD));
+                        (WSO2SP_REPORTER_PASSWORD), null));
         tracerProperties.setProperty(WSO2SP_REPORTER_URL,
                 configRegistry.getConfigOrDefault(getFullQualifiedConfig
                         (WSO2SP_REPORTER_URL), DEFAULT_WSO2SP_REPORTER_URL));
@@ -90,7 +88,7 @@ public class OpenTracingExtension implements OpenTracer {
                         null));
         tracerProperties.setProperty(WSO2SP_REPORTER_TRUSTSTORE_PASSWORD,
                 configRegistry.getConfigOrDefault(getFullQualifiedConfig(WSO2SP_REPORTER_TRUSTSTORE_PASSWORD),
-                        DEFAULT_WSO2SP_REPORTER_TRUSTSTORE_PASSWORD));
+                        null));
 
         tracerProperties.setProperty(TRACER_NAME, TRACER_VALUE);
         try {
