@@ -35,7 +35,7 @@
                 <include>org.wso2.carbon.config:org.wso2.carbon.config</include>
                 <include>org.wso2.carbon.secvault:org.wso2.carbon.secvault</include>
                 <include>org.wso2.carbon.analytics-common:org.wso2.carbon.databridge.commons.thrift</include>
-                <include>io.opentracing:opentracing-api</include>
+                <include>org.json.wso2:json</include>
             </includes>
         </dependencySet>
     </dependencySets>

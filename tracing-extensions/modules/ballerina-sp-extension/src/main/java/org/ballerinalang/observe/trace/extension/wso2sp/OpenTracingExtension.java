@@ -79,7 +79,6 @@ public class OpenTracingExtension implements OpenTracer {
         tracerProperties.setProperty(WSO2SP_REPORTER_AUTHURL,
                 configRegistry.getConfigOrDefault(getFullQualifiedConfig
                         (WSO2SP_REPORTER_AUTHURL), DEFAULT_WSO2SP_REPORTER_AUTHURL));
-
         tracerProperties.setProperty(WSO2SP_REPORTER_DATABRIDGE_AGENT_CONFIG,
                 configRegistry.getConfigOrDefault(getFullQualifiedConfig(WSO2SP_REPORTER_DATABRIDGE_AGENT_CONFIG),
                         null));
@@ -89,7 +88,6 @@ public class OpenTracingExtension implements OpenTracer {
         tracerProperties.setProperty(WSO2SP_REPORTER_TRUSTSTORE_PASSWORD,
                 configRegistry.getConfigOrDefault(getFullQualifiedConfig(WSO2SP_REPORTER_TRUSTSTORE_PASSWORD),
                         null));
-
         tracerProperties.setProperty(TRACER_NAME, TRACER_VALUE);
         try {
             this.streamProcessorTracerClient.init(tracerProperties);

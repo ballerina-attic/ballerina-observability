@@ -292,6 +292,11 @@
                 <version>${carbon.analytics-common.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.json.wso2</groupId>
+                <artifactId>json</artifactId>
+                <version>${org.wso2.json.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
                 <version>${testng.version}</version>
@@ -575,8 +580,9 @@
         <brave.zipkin.version>4.17.1</brave.zipkin.version>
         <zipkin.reporter.version>2.5.0</zipkin.reporter.version>
         <zipkin.version>2.6.1</zipkin.version>
-        <wso2sp.version>4.3.0-SNAPSHOT</wso2sp.version>
+        <wso2sp.version>4.3.0-M1</wso2sp.version>
         <carbon.analytics-common.version>6.0.64</carbon.analytics-common.version>
+        <org.wso2.json.version>3.0.0.wso2v1</org.wso2.json.version>
         <wso2.log4j.version>1.2.17.wso2v1</wso2.log4j.version>
         <carbon.config.version>2.1.5</carbon.config.version>
         <carbon.securevault.version>5.0.10</carbon.securevault.version>
