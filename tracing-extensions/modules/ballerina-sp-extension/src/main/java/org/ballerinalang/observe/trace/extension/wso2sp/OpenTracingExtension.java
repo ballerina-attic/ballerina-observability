@@ -32,14 +32,12 @@ import java.util.Properties;
 
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_AUTHURL;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_PUBLISHER_TYPE_CONFIG;
-import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_SERVICE_NAME;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_URL;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.DEFAULT_WSO2SP_REPORTER_USERNAME;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_AUTHURL;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_DATABRIDGE_AGENT_CONFIG;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_PASSWORD;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_PUBLISHER_TYPE;
-import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_SERVICE_NAME;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_TRUSTSTORE;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_TRUSTSTORE_PASSWORD;
 import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_REPORTER_URL;
@@ -101,9 +99,6 @@ public class OpenTracingExtension implements OpenTracer {
 
     @Override
     public Tracer getTracer(String tracerName, String serviceName) {
-        tracerProperties.setProperty(WSO2SP_REPORTER_SERVICE_NAME,
-                configRegistry.getConfigOrDefault(getFullQualifiedConfig
-                        (WSO2SP_REPORTER_SERVICE_NAME), DEFAULT_WSO2SP_REPORTER_SERVICE_NAME));
         try {
             return this.streamProcessorTracerClient.getTracer(serviceName, NoOpScopeManager.INSTANCE);
         } catch (AnalyticsTracerInitializationException e) {
