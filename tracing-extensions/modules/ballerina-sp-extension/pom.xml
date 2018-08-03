@@ -40,7 +40,7 @@
             <artifactId>opentracing-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.sp</groupId>
+            <groupId>org.wso2.carbon.analytics</groupId>
             <artifactId>org.wso2.sp.open.tracer.client</artifactId>
         </dependency>
     </dependencies>
