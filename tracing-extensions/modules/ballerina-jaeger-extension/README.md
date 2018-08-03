@@ -25,5 +25,5 @@ reporter.max.buffer.spans=1000
 
 - Run your Ballerina service with that `ballerina.conf` file.
   - Either place `ballerina.conf` in your applications directory.
-  - Or use `-Bballerina.conf=path/to/ballerina.conf`
+  - Or use `--config path/to/ballerina.conf`
 - Once everything is up and running, you can use jaeger dashboard to view traces.
