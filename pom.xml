@@ -257,9 +257,9 @@
                 <version>${zipkin.reporter.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics</groupId>
+                <groupId>org.wso2.analytics.solutions</groupId>
                 <artifactId>org.wso2.sp.open.tracer.client</artifactId>
-                <version>${carbon.analytics.version}</version>
+                <version>${analytics.solutions.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.analytics-common</groupId>
@@ -580,7 +580,7 @@
         <brave.zipkin.version>4.17.1</brave.zipkin.version>
         <zipkin.reporter.version>2.5.0</zipkin.reporter.version>
         <zipkin.version>2.6.1</zipkin.version>
-        <carbon.analytics.version>2.0.395</carbon.analytics.version>
+        <analytics.solutions.version>1.0.8</analytics.solutions.version>
         <carbon.analytics-common.version>6.0.64</carbon.analytics-common.version>
         <org.wso2.json.version>3.0.0.wso2v1</org.wso2.json.version>
         <wso2.log4j.version>1.2.17.wso2v1</wso2.log4j.version>
