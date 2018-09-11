@@ -27,7 +27,7 @@
             <outputDirectory></outputDirectory>
             <scope>runtime</scope>
             <includes>
-                <include>org.wso2.sp:org.wso2.sp.open.tracer.client:jar</include>
+                <include>org.wso2.analytics.solutions:org.wso2.sp.open.tracer.client:jar</include>
                 <include>org.ballerinalang:ballerina-sp-extension:jar</include>
                 <include>org.wso2.carbon.analytics-common:org.wso2.carbon.databridge.agent</include>
                 <include>org.wso2.carbon.analytics-common:org.wso2.carbon.databridge.commons</include>
