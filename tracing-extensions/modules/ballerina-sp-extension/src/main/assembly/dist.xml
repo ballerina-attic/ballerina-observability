@@ -36,6 +36,7 @@
                 <include>org.wso2.carbon.secvault:org.wso2.carbon.secvault</include>
                 <include>org.wso2.carbon.analytics-common:org.wso2.carbon.databridge.commons.thrift</include>
                 <include>org.json.wso2:json</include>
+                <include>com.google.code.gson</include>
             </includes>
         </dependencySet>
     </dependencySets>
