@@ -573,7 +573,7 @@
         <prometheus.simple.client.version>0.3.0</prometheus.simple.client.version>
         <open.tracing.version>0.31.0</open.tracing.version>
         <jaeger.version>0.24.0</jaeger.version>
-        <libthrift.version>0.10.0</libthrift.version>
+        <libthrift.version>0.12.0</libthrift.version>
         <okhttp.version>3.9.1</okhttp.version>
         <okio.version>1.13.0</okio.version>
         <brave.open.tracing.version>0.29.0</brave.open.tracing.version>
