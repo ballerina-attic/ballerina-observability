@@ -38,6 +38,7 @@
   "annotations": {
     "list": [
       {
+        "$$hashKey": "object:114",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -51,8 +52,8 @@
   "editable": true,
   "gnetId": 5841,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1524808799686,
+  "id": 1,
+  "iteration": 1566282840376,
   "links": [],
   "panels": [
     {
@@ -705,14 +706,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ballerina_http:Caller_1XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "$$hashKey": "object:1812",
+          "expr": "rate(ballerina_http_Caller_1XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "1xx Informational responses - Instance: {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "rate(ballerina_http:Caller_2XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "$$hashKey": "object:1813",
+          "expr": "rate(ballerina_http_Caller_2XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -720,21 +723,24 @@
           "refId": "B"
         },
         {
-          "expr": "rate(ballerina_http:Caller_3XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "$$hashKey": "object:1814",
+          "expr": "rate(ballerina_http_Caller_3XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "3xx Redirections - Instance: {{instance}}",
           "refId": "C"
         },
         {
-          "expr": "rate(ballerina_http:Caller_4XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "$$hashKey": "object:1815",
+          "expr": "rate(ballerina_http_Caller_4XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "4xx Client errors - Instance: {{instance}}",
           "refId": "D"
         },
         {
-          "expr": "rate(ballerina_http:Caller_5XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "$$hashKey": "object:1816",
+          "expr": "rate(ballerina_http_Caller_5XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "5xx Server errors - Instance: {{instance}}",
@@ -935,7 +941,8 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum( max_over_time({__name__=~\".*:HttpCaller_requests_total_value\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*:HttpCaller_requests_total_value\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) ) ",
+          "$$hashKey": "object:1354",
+          "expr": "sum( max_over_time({__name__=~\".*HttpClient_requests_total_value\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_requests_total_value\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) ) ",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1016,7 +1023,8 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum( max_over_time({__name__=~\".*:HttpCaller_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*:HttpCaller_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])+ max_over_time({__name__=~\".*:HttpCaller_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*:HttpCaller_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) )",
+          "$$hashKey": "object:1995",
+          "expr": "sum( max_over_time({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])+ max_over_time({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) )",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1098,7 +1106,8 @@
       "tableColumn": "__name__",
       "targets": [
         {
-          "expr": "sum({__name__=~\".*:.*HttpCaller_inprogress_requests_value\", action=~\"$http_client_action\", instance=~\"$instance\"})",
+          "$$hashKey": "object:1948",
+          "expr": "sum({__name__=~\".*HttpClient_inprogress_requests_value\", action=~\"$http_client_action\", instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1179,7 +1188,8 @@
       "tableColumn": "Value",
       "targets": [
         {
-          "expr": "sum( max_over_time({__name__=~\".*:HttpCaller_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*:HttpCaller_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])+ max_over_time({__name__=~\".*:HttpCaller_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*:HttpCaller_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]))*100/sum( max_over_time({__name__=~\".*:HttpCaller_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*:HttpCaller_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]))\n",
+          "$$hashKey": "object:2042",
+          "expr": "sum( max_over_time({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])+ max_over_time({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]))*100/sum( max_over_time({__name__=~\".*HttpClient_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]))\n",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1240,7 +1250,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (rate({__name__=~\".*:.*HttpCaller_requests_total_value\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",peer_address=~\"$peer_address\",http_url=~\"$http_url\"}[1m]))",
+          "$$hashKey": "object:342",
+          "expr": "sum without (http_status_code) (rate(ballerina_http_HttpClient_requests_total_value{instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",peer_address=~\"$peer_address\",http_url=~\"$http_url\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1323,7 +1334,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum without(http_status_code) ({__name__=~\".*:HttpCaller_response_time_seconds_value\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",peer_address=~\"$peer_address\",http_url=~\"$http_url\"})",
+          "$$hashKey": "object:1407",
+          "expr": "sum without(http_status_code) ({__name__=~\".*HttpClient_response_time_seconds_value\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",peer_address=~\"$peer_address\",http_url=~\"$http_url\"})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1412,14 +1424,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate({__name__=~\".*:HttpCaller_1XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "$$hashKey": "object:1460",
+          "expr": "rate({__name__=~\".*HttpClient_1XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "1xx Informational responses - Instance: {{instance}}, Action: {{action}}",
           "refId": "A"
         },
         {
-          "expr": "rate({__name__=~\".*:HttpCaller_2XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "$$hashKey": "object:1461",
+          "expr": "rate({__name__=~\".*HttpClient_2XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1427,21 +1441,24 @@
           "refId": "B"
         },
         {
-          "expr": "rate({__name__=~\".*:HttpCaller_3XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "$$hashKey": "object:1462",
+          "expr": "rate({__name__=~\".*HttpClient_3XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "3xx Redirections - Instance: {{instance}}, Action: {{action}}",
           "refId": "C"
         },
         {
-          "expr": "rate({__name__=~\".*:HttpCaller_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "$$hashKey": "object:1463",
+          "expr": "rate({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "4xx Client errors - Instance: {{instance}}, Action: {{action}}",
           "refId": "D"
         },
         {
-          "expr": "rate({__name__=~\".*:HttpCaller_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "$$hashKey": "object:1464",
+          "expr": "rate({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "5xx Server errors - Instance: {{instance}}, Action: {{action}}",
@@ -1523,7 +1540,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk(5,ballerina_http:HttpCaller_requests_total_value)",
+          "$$hashKey": "object:1602",
+          "expr": "topk(5,ballerina_http_HttpClient_requests_total_value)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Action: {{action}}, Method: {{http_method}}, Peer Address: {{peer_address}}, URL: {{http_url}}",
@@ -1642,7 +1660,8 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(max_over_time(ballerina_sql:Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])-min_over_time(ballerina_sql:Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "$$hashKey": "object:257",
+          "expr": "sum(max_over_time(ballerinax_java_jdbc_JdbcClient_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])-min_over_time(ballerinax_java_jdbc_JdbcClient_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1723,7 +1742,8 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum (max_over_time(ballerina_sql:Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerina_sql:Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "$$hashKey": "object:1262",
+          "expr": "sum (max_over_time(ballerinax_java_jdbc_JdbcClient_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerinax_java_jdbc_JdbcClient_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1805,7 +1825,8 @@
       "tableColumn": "__name__",
       "targets": [
         {
-          "expr": "sum(ballerina_sql:Client_inprogress_requests_value{action=~\"$db_action\"})",
+          "$$hashKey": "object:1078",
+          "expr": "sum(ballerinax_java_jdbc_JdbcClient_inprogress_requests_value{action=~\"$db_action\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1886,7 +1907,8 @@
       "tableColumn": "Value",
       "targets": [
         {
-          "expr": "sum (max_over_time(ballerina_sql:Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerina_sql:Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))*100/sum(max_over_time(ballerina_sql:Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerina_sql:Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "$$hashKey": "object:1215",
+          "expr": "sum (max_over_time(ballerinax_java_jdbc_JdbcClient_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerinax_java_jdbc_JdbcClient_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))*100/sum(max_over_time(ballerinax_java_jdbc_JdbcClient_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerinax_java_jdbc_JdbcClient_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1947,7 +1969,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ballerina_sql:Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])",
+          "$$hashKey": "object:395",
+          "expr": "rate(ballerinax_java_jdbc_JdbcClient_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2031,7 +2054,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "ballerina_sql:Client_response_time_seconds_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}",
+          "$$hashKey": "object:955",
+          "expr": "ballerinax_java_jdbc_JdbcClient_response_time_seconds{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Action: {{action}}, Quantile: {{quantile}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
@@ -2113,7 +2137,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ballerina_sql:Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\"}[1m])",
+          "$$hashKey": "object:849",
+          "expr": "rate(ballerinax_java_jdbc_JdbcClient_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\"}[1m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2197,7 +2222,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk(5,ballerina_sql:Client_requests_total_value)",
+          "$$hashKey": "object:902",
+          "expr": "topk(5,ballerinax_java_jdbc_JdbcClient_requests_total_value)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Action: {{action}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
@@ -2403,7 +2429,7 @@
         "multi": true,
         "name": "http_client_action",
         "options": [],
-        "query": "label_values(ballerina_http:HttpCaller_requests_total_value,action)",
+        "query": "label_values(ballerina_http_HttpClient_requests_total_value,action)",
         "refresh": 1,
         "regex": "",
         "sort": 0,
@@ -2423,7 +2449,7 @@
         "multi": true,
         "name": "db_action",
         "options": [],
-        "query": "label_values(ballerina_sql:Client_requests_total_value,action)",
+        "query": "label_values(ballerinax_java_jdbc_JdbcClient_requests_total_value,action)",
         "refresh": 1,
         "regex": "",
         "sort": 0,
@@ -2443,7 +2469,7 @@
         "multi": true,
         "name": "db_statement",
         "options": [],
-        "query": "label_values(ballerina_sql:Client_requests_total_value,db_statement)",
+        "query": "label_values(ballerinax_java_jdbc_JdbcClient_requests_total_value,db_statement)",
         "refresh": 1,
         "regex": "",
         "sort": 0,
@@ -2463,7 +2489,7 @@
         "multi": true,
         "name": "db_instance",
         "options": [],
-        "query": "label_values(ballerina_sql:Client_requests_total_value,db_instance)",
+        "query": "label_values(ballerinax_java_jdbc_JdbcClient_requests_total_value,db_instance)",
         "refresh": 1,
         "regex": "",
         "sort": 0,
