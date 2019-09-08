@@ -19,12 +19,13 @@ package org.ballerinalang.observe.trace.extension.zipkin;
 
 import brave.Tracing;
 import brave.opentracing.BraveTracer;
+
 import io.opentracing.Tracer;
-import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.config.ConfigRegistry;
-import org.ballerinalang.util.observability.ObservabilityConstants;
-import org.ballerinalang.util.tracer.OpenTracer;
-import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
+import org.ballerinalang.jvm.observability.ObservabilityConstants;
+import org.ballerinalang.jvm.observability.tracer.InvalidConfigurationException;
+import org.ballerinalang.jvm.observability.tracer.OpenTracer;
+
 import zipkin2.codec.SpanBytesEncoder;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Sender;
@@ -48,7 +49,6 @@ import static org.ballerinalang.observe.trace.extension.zipkin.Constants.REPORTE
 /**
  * This is the open tracing extension class for {@link OpenTracer}.
  */
-@JavaSPIService("org.ballerinalang.util.tracer.OpenTracer")
 public class OpenTracingExtension implements OpenTracer {
 
     private static final PrintStream console = System.out;

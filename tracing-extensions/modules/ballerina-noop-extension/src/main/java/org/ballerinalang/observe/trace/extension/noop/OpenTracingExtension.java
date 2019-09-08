@@ -18,14 +18,12 @@
 package org.ballerinalang.observe.trace.extension.noop;
 
 import io.opentracing.Tracer;
-import org.ballerinalang.annotation.JavaSPIService;
-import org.ballerinalang.util.tracer.OpenTracer;
-import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
+import org.ballerinalang.jvm.observability.tracer.InvalidConfigurationException;
+import org.ballerinalang.jvm.observability.tracer.OpenTracer;
 
 /**
  * Tracer extension that returns an instance of no-op tracer.
  */
-@JavaSPIService("org.ballerinalang.util.tracer.OpenTracer")
 public class OpenTracingExtension implements OpenTracer {
 
     private static final String NAME = "noop";

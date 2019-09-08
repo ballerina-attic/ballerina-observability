@@ -25,6 +25,10 @@ package org.ballerinalang.observe.trace.extension.zipkin;
  */
 public class Constants {
 
+    private Constants() {
+
+    }
+
     static final String REPORTER_HOST_NAME_CONFIG = "reporter.hostname";
     static final String REPORTER_PORT_CONFIG = "reporter.port";
     static final String REPORTER_API_CONTEXT_CONFIG = "reporter.api.context";
@@ -37,8 +41,5 @@ public class Constants {
     static final boolean DEFAULT_REPORTER_COMPRESSION_ENABLED = true;
     static final String DEFAULT_REPORTER_API_VERSION = "v2";
 
-    private Constants() {
-
-    }
 
 }
