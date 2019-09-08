@@ -27,7 +27,7 @@
 
     <groupId>org.ballerinalang</groupId>
     <artifactId>ballerina-observability-parent</artifactId>
-    <version>0.972.1-SNAPSHOT</version>
+    <version>1.0.0-rc1-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <name>Ballerina - Observability Parent</name>
@@ -159,6 +159,11 @@
             <dependency>
                 <groupId>org.ballerinalang</groupId>
                 <artifactId>ballerina-core</artifactId>
+                <version>${ballerina.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ballerinalang</groupId>
+                <artifactId>ballerina-runtime</artifactId>
                 <version>${ballerina.version}</version>
             </dependency>
             <dependency>
@@ -306,7 +311,7 @@
     </dependencyManagement>
 
     <modules>
-        <module>metrics-extensions</module>
+        <!-- <module>metrics-extensions</module> -->
         <module>tracing-extensions</module>
     </modules>
 
@@ -317,7 +322,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>metrics-extensions</module>
+                <!-- <module>metrics-extensions</module> -->
                 <module>tracing-extensions</module>
             </modules>
         </profile>
@@ -463,25 +468,25 @@
                 </executions>
             </plugin>
             <!-- For ballerina annotation processing -->
-            <plugin>
-                <groupId>org.bsc.maven</groupId>
-                <artifactId>maven-processor-plugin</artifactId>
-                <version>${maven.processor.plugin.version}</version>
-                <configuration>
-                    <processors>
-                        <processor>org.ballerinalang.codegen.BallerinaAnnotationProcessor</processor>
-                    </processors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>process</id>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.bsc.maven</groupId>-->
+            <!--                <artifactId>maven-processor-plugin</artifactId>-->
+            <!--                <version>${maven.processor.plugin.version}</version>-->
+            <!--                <configuration>-->
+            <!--                    <processors>-->
+            <!--                        <processor>org.ballerinalang.codegen.BallerinaAnnotationProcessor</processor>-->
+            <!--                    </processors>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>process</id>-->
+            <!--                        <goals>-->
+            <!--                            <goal>process</goal>-->
+            <!--                        </goals>-->
+            <!--                        <phase>generate-sources</phase>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
         <pluginManagement>
             <plugins>
@@ -547,7 +552,7 @@
     </build>
 
     <properties>
-        <ballerina.version>0.972.1-SNAPSHOT</ballerina.version>
+        <ballerina.version>1.0.0-rc1-SNAPSHOT</ballerina.version>
         <project.scm.id>my-scm-server</project.scm.id>
         <maven.wagon.ssh.version>2.1</maven.wagon.ssh.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>

@@ -22,7 +22,6 @@ import io.opentracing.ScopeManager;
 import io.opentracing.Span;
 import io.opentracing.SpanContext;
 import io.opentracing.Tracer;
-import io.opentracing.noop.NoopScopeManager;
 import io.opentracing.propagation.Format;
 
 /**

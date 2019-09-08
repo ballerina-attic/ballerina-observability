@@ -18,11 +18,10 @@
 package org.ballerinalang.observe.trace.extension.wso2sp;
 
 import io.opentracing.Tracer;
-import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.config.ConfigRegistry;
-import org.ballerinalang.util.observability.ObservabilityConstants;
-import org.ballerinalang.util.tracer.OpenTracer;
-import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
+import org.ballerinalang.jvm.observability.ObservabilityConstants;
+import org.ballerinalang.jvm.observability.tracer.InvalidConfigurationException;
+import org.ballerinalang.jvm.observability.tracer.OpenTracer;
 import org.wso2.sp.open.tracer.client.AnalyticsTracerInitializationException;
 import org.wso2.sp.open.tracer.client.InvalidTracerConfigurationException;
 import org.wso2.sp.open.tracer.client.StreamProcessorTracerClient;
@@ -46,7 +45,6 @@ import static org.ballerinalang.observe.trace.extension.wso2sp.Constants.WSO2SP_
 /**
  * This is the open tracing extension class for {@link OpenTracer}.
  */
-@JavaSPIService("org.ballerinalang.util.tracer.OpenTracer")
 public class OpenTracingExtension implements OpenTracer {
     private static final PrintStream console = System.out;
     private static final String TRACER_NAME = "trace.name";

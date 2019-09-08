@@ -15,6 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.ballerinalang.observe.trace.extension.jaeger;
 
 import com.uber.jaeger.Configuration;
@@ -22,10 +23,9 @@ import com.uber.jaeger.samplers.ConstSampler;
 import com.uber.jaeger.samplers.ProbabilisticSampler;
 import com.uber.jaeger.samplers.RateLimitingSampler;
 import io.opentracing.Tracer;
-import org.ballerinalang.annotation.JavaSPIService;
 import org.ballerinalang.config.ConfigRegistry;
-import org.ballerinalang.util.tracer.OpenTracer;
-import org.ballerinalang.util.tracer.exception.InvalidConfigurationException;
+import org.ballerinalang.jvm.observability.tracer.InvalidConfigurationException;
+import org.ballerinalang.jvm.observability.tracer.OpenTracer;
 
 import java.io.PrintStream;
 import java.util.Objects;
@@ -47,7 +47,6 @@ import static org.ballerinalang.observe.trace.extension.jaeger.Constants.TRACER_
 /**
  * This is the open tracing extension class for {@link OpenTracer}.
  */
-@JavaSPIService("org.ballerinalang.util.tracer.OpenTracer")
 public class OpenTracingExtension implements OpenTracer {
 
     private ConfigRegistry configRegistry;
@@ -75,7 +74,7 @@ public class OpenTracingExtension implements OpenTracer {
                     || samplerType.equals(ProbabilisticSampler.TYPE))) {
                 samplerType = DEFAULT_SAMPLER_TYPE;
                 consoleError.println(
-                        "ballerina: Jaeger configuration: \"sampler type\" invalid. Defaulted to const sampling");
+                        "error: Jaeger configuration: \"sampler type\" invalid. Defaulted to const sampling");
             }
 
             samplerParam = Float.valueOf(

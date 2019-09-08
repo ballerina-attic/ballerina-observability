@@ -23,6 +23,9 @@ package org.ballerinalang.observe.trace.extension.wso2sp;
  * that are used by the {@link OpenTracingExtension}.
  */
 public class Constants {
+    private Constants() {
+
+    }
     static final String WSO2SP_REPORTER_PUBLISHER_TYPE = "reporter.wso2sp.publisher.type";
     static final String WSO2SP_REPORTER_USERNAME = "reporter.wso2sp.publisher.username";
     static final String WSO2SP_REPORTER_PASSWORD = "reporter.wso2sp.publisher.password";
@@ -37,7 +40,4 @@ public class Constants {
     static final String DEFAULT_WSO2SP_REPORTER_URL = "tcp://localhost:7611";
     static final String DEFAULT_WSO2SP_REPORTER_AUTHURL = "ssl://localhost:7711";
     static final String DEFAULT_WSO2SP_REPORTER_SERVICE_NAME = "wso2_ballerina";
-    private Constants() {
-
-    }
 }

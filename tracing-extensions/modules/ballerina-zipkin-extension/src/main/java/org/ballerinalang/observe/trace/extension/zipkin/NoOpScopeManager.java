@@ -31,10 +31,10 @@ import java.util.Map;
  */
 public class NoOpScopeManager implements ScopeManager {
 
-    static final NoOpScopeManager INSTANCE = new NoOpScopeManager();
-
     private NoOpScopeManager() {
     }
+
+    static final NoOpScopeManager INSTANCE = new NoOpScopeManager();
 
     @Override
     public Scope activate(Span span, boolean finishSpanOnClose) {
@@ -48,10 +48,10 @@ public class NoOpScopeManager implements ScopeManager {
 
     static class NoOpScope implements Scope {
 
-        static final NoOpScope INSTANCE = new NoOpScope();
-
         private NoOpScope() {
         }
+
+        static final NoOpScope INSTANCE = new NoOpScope();
 
         @Override
         public void close() {
@@ -66,10 +66,10 @@ public class NoOpScopeManager implements ScopeManager {
 
     static class NoOpSpan implements Span {
 
-        static final NoOpSpan INSTANCE = new NoOpSpan();
-
         private NoOpSpan() {
         }
+
+        static final NoOpSpan INSTANCE = new NoOpSpan();
 
         @Override
         public SpanContext context() {
@@ -142,10 +142,10 @@ public class NoOpScopeManager implements ScopeManager {
 
     static class NoOpSpanContext implements SpanContext {
 
-        static final NoOpSpanContext INSTANCE = new NoOpSpanContext();
-
         private NoOpSpanContext() {
         }
+
+        static final NoOpSpanContext INSTANCE = new NoOpSpanContext();
 
         @Override
         public Iterable<Map.Entry<String, String>> baggageItems() {
