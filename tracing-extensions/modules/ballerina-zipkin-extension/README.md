@@ -10,7 +10,11 @@ proxy that can be used to convert the Zipkin traces to their own format.
 
 - Create a `Ballerina.toml` file with following properties.
 ```toml
-...
+[project]
+org-name= "sample-org"
+version= "0.1.0"
+
+[dependencies]
 
 [platform]
 target = "java8"
