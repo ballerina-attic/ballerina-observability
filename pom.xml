@@ -247,6 +247,11 @@
                 <version>${brave.open.tracing.version}</version>
             </dependency>
             <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave</artifactId>
+                <version>${brave.zipkin.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.zipkin.reporter2</groupId>
                 <artifactId>zipkin-reporter</artifactId>
                 <version>${zipkin.reporter.version}</version>
