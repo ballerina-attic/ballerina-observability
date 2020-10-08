@@ -53,7 +53,7 @@
   "gnetId": 5841,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1566282840376,
+  "iteration": 1602141882733,
   "links": [],
   "panels": [
     {
@@ -63,13 +63,21 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
       "decimals": 0,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 3,
+      "fillGradient": 0,
       "gridPos": {
         "h": 4,
         "w": 24,
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 62,
       "legend": {
         "alignAsTable": false,
@@ -87,6 +95,7 @@
       "links": [],
       "nullPointMode": "null as zero",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -116,6 +125,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Ballerina Up / Down",
       "tooltip": {
@@ -149,10 +159,15 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -175,6 +190,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -226,15 +247,17 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "\nsum(max_over_time(http_requests_total_value{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\"}[1m])-min_over_time(http_requests_total_value{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\"}[1m]))",
+          "expr": "\nsum(max_over_time(requests_total_value{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\",connector_name=\"http\"}[1m])-min_over_time(requests_total_value{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\",connector_name=\"http\"}[1m]))",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
       "thresholds": "",
-      "title": "Requests / min",
+      "title": "Avg Requests / min",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -256,6 +279,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -307,10 +336,12 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(max_over_time(ballerina_http:Caller_4XX_requests_total_value{instance=~\"$instance\"}[1m])-min_over_time(ballerina_http:Caller_4XX_requests_total_value{instance=~\"$instance\"}[1m])+max_over_time(ballerina_http:Caller_5XX_requests_total_value{instance=~\"$instance\"}[1m])-min_over_time(ballerina_http:Caller_5XX_requests_total_value{instance=~\"$instance\"}[1m]))",
+          "expr": "sum(max_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"4xx\"}[1m])-min_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"4xx\"}[1m])) OR on() vector(0)+sum(max_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"5xx\"}[1m])-min_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"5xx\"}[1m]))OR on() vector(0)",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -338,6 +369,12 @@
       ],
       "datasource": "${DS_PROMETHEUSDS}",
       "decimals": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 0,
@@ -386,11 +423,12 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "__name__",
+      "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(http_inprogress_requests_value{instance=~\"$instance\",service=~\"$service\",resource=~\"$resource\"})",
+          "expr": "sum(inprogress_requests_value{instance=~\"$instance\",service=~\"$service\",resource=~\"$resource\",connector_name=\"http\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A"
@@ -419,6 +457,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -467,15 +511,16 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "Value",
+      "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(max_over_time(ballerina_http:Caller_4XX_requests_total_value{instance=~\"$instance\"}[1m]) - min_over_time(ballerina_http:Caller_4XX_requests_total_value{instance=~\"$instance\"}[1m])+max_over_time(ballerina_http:Caller_5XX_requests_total_value{instance=~\"$instance\"}[1m]) - min_over_time(ballerina_http:Caller_5XX_requests_total_value{instance=~\"$instance\"}[1m]))*100/sum(max_over_time(ballerina_http:Caller_requests_total_value{instance=~\"$instance\"}[1m]) - min_over_time(ballerina_http:Caller_requests_total_value{instance=~\"$instance\"}[1m]))",
+          "expr": "(sum(max_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"4xx\"}[1m])\n-\n  min_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"4xx\"}[1m])) OR on() vector(0)\n+\nsum(max_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"5xx\"}[1m]) \n-    min_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"5xx\"}[1m])) OR on() vector(0))\n*100\n/\nsum(max_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\"}[1m]) - min_over_time(requests_total_value{instance=~\"$instance\",connector_name=\"ballerina/http/Caller\"}[1m]))\n",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -499,13 +544,21 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 9
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "alignAsTable": true,
@@ -523,6 +576,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -532,7 +586,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum without (http_status_code)(rate(http_requests_total_value{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\"}[1m]))",
+          "expr": "sum without (http_status_code)(rate(requests_total_value{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\",connector_name=\"http\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -544,6 +598,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Throughput",
       "tooltip": {
@@ -577,7 +632,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -586,13 +645,21 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 9
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "alignAsTable": true,
@@ -610,6 +677,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -619,9 +687,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "http_response_time_seconds{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\"}",
+          "expr": "response_time_seconds{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\",connector_name=\"http\"}",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Protocol: {{protocol}}, Method: {{http_method}}, URL: {{http_url}}, Quantile: {{quantile}}",
           "refId": "A"
@@ -629,6 +698,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Response Time Percentiles",
       "tooltip": {
@@ -661,7 +731,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {
@@ -675,13 +749,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 18
       },
+      "hiddenSeries": false,
       "id": 74,
       "legend": {
         "avg": false,
@@ -697,6 +779,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -706,16 +789,15 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:1812",
-          "expr": "rate(ballerina_http_Caller_1XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"1xx\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "1xx Informational responses - Instance: {{instance}}",
           "refId": "A"
         },
         {
-          "$$hashKey": "object:1813",
-          "expr": "rate(ballerina_http_Caller_2XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"2xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -723,25 +805,25 @@
           "refId": "B"
         },
         {
-          "$$hashKey": "object:1814",
-          "expr": "rate(ballerina_http_Caller_3XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"3xx\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "3xx Redirections - Instance: {{instance}}",
           "refId": "C"
         },
         {
-          "$$hashKey": "object:1815",
-          "expr": "rate(ballerina_http_Caller_4XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"4xx\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "4xx Client errors - Instance: {{instance}}",
           "refId": "D"
         },
         {
-          "$$hashKey": "object:1816",
-          "expr": "rate(ballerina_http_Caller_5XX_requests_total_value{instance=~\"$instance\", action=~\"respond\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"http\",http_status_code=\"4xx\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "5xx Server errors - Instance: {{instance}}",
           "refId": "E"
@@ -749,6 +831,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "HTTP Status Codes",
       "tooltip": {
@@ -781,7 +864,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -789,13 +876,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 18
       },
+      "hiddenSeries": false,
       "id": 78,
       "legend": {
         "alignAsTable": true,
@@ -813,6 +908,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -822,8 +918,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk(5,http_requests_total_value)",
+          "expr": "topk(5,requests_total_value{connector_name=\"http\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Protocol: {{protocol}}, Method: {{http_method}}, URL: {{http_url}}",
           "refId": "A"
@@ -831,6 +928,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top 5 services",
       "tooltip": {
@@ -865,10 +963,15 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -890,6 +993,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -941,11 +1050,12 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1354",
-          "expr": "sum( max_over_time({__name__=~\".*HttpClient_requests_total_value\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_requests_total_value\", instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) ) ",
+          "expr": "sum( max_over_time(requests_total_value{connector_name=\"ballerina/http/Client\",action=~\"$http_client_action\"}[1m]) - min_over_time(requests_total_value{  connector_name=\"ballerina/http/Client\",action=~\"$http_client_action\"}[1m]) ) ",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -972,6 +1082,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1023,11 +1139,12 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1995",
-          "expr": "sum( max_over_time({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])+ max_over_time({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) )",
+          "expr": "sum( max_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"4xx\",connector_name=\"ballerina/http/Client\"}[1m]) - min_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"4xx\",connector_name=\"ballerina/http/Client\"}[1m])) OR on() vector(0) + sum(max_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"5xx\",connector_name=\"ballerina/http/Client\"}[1m]) - min_over_time(requests_total_value{instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"5xx\",connector_name=\"ballerina/http/Client\"}[1m]) ) OR on() vector(0)",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -1055,6 +1172,12 @@
       ],
       "datasource": "${DS_PROMETHEUSDS}",
       "decimals": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 0,
@@ -1103,12 +1226,12 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "__name__",
+      "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1948",
-          "expr": "sum({__name__=~\".*HttpClient_inprogress_requests_value\", action=~\"$http_client_action\", instance=~\"$instance\"})",
+          "expr": "sum(inprogress_requests_value{connector_name=\"ballerina/http/Client\",instance=~\"$instance\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A"
@@ -1137,6 +1260,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1185,16 +1314,16 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "Value",
+      "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:2042",
-          "expr": "sum( max_over_time({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])+ max_over_time({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]))*100/sum( max_over_time({__name__=~\".*HttpClient_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]) - min_over_time({__name__=~\".*HttpClient_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m]))\n",
+          "expr": "(sum( max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"4xx\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"4xx\"}[1m])) OR on() vector(0) + sum(max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"5xx\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"5xx\"}[1m])) OR on() vector(0) )*100 / sum( max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\"}[1m]))\n",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -1218,13 +1347,21 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 32
       },
+      "hiddenSeries": false,
       "id": 20,
       "legend": {
         "alignAsTable": true,
@@ -1241,6 +1378,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1250,10 +1388,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:342",
-          "expr": "sum without (http_status_code) (rate(ballerina_http_HttpClient_requests_total_value{instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",peer_address=~\"$peer_address\",http_url=~\"$http_url\"}[1m]))",
+          "expr": "sum without (http_status_code) (rate(requests_total_value{instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",http_url=~\"$http_url\",connector_name=\"ballerina/http/Client\"}[1m]))",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Action: {{action}}, Method: {{http_method}}, Peer Address: {{peer_address}}, URL: {{http_url}}",
           "refId": "A"
@@ -1261,6 +1399,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Throughput",
       "tooltip": {
@@ -1293,7 +1432,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -1302,13 +1445,21 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 32
       },
+      "hiddenSeries": false,
       "id": 24,
       "legend": {
         "alignAsTable": true,
@@ -1325,6 +1476,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1334,8 +1486,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:1407",
-          "expr": "sum without(http_status_code) ({__name__=~\".*HttpClient_response_time_seconds_value\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",peer_address=~\"$peer_address\",http_url=~\"$http_url\"})",
+          "expr": "sum without(http_status_code) ({__name__=~\"response_time_seconds_value\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",http_url=~\"$http_url\",connector_name=\"ballerina/http/Client\"})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1346,6 +1497,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Response Time Percentiles",
       "tooltip": {
@@ -1379,7 +1531,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {
@@ -1393,13 +1549,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 41
       },
+      "hiddenSeries": false,
       "id": 79,
       "legend": {
         "avg": false,
@@ -1415,6 +1579,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1424,16 +1589,15 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:1460",
-          "expr": "rate({__name__=~\".*HttpClient_1XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code=\"1xx\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "1xx Informational responses - Instance: {{instance}}, Action: {{action}}",
           "refId": "A"
         },
         {
-          "$$hashKey": "object:1461",
-          "expr": "rate({__name__=~\".*HttpClient_2XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"2xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1441,25 +1605,25 @@
           "refId": "B"
         },
         {
-          "$$hashKey": "object:1462",
-          "expr": "rate({__name__=~\".*HttpClient_3XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"3xx\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "3xx Redirections - Instance: {{instance}}, Action: {{action}}",
           "refId": "C"
         },
         {
-          "$$hashKey": "object:1463",
-          "expr": "rate({__name__=~\".*HttpClient_4XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"4xx\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "4xx Client errors - Instance: {{instance}}, Action: {{action}}",
           "refId": "D"
         },
         {
-          "$$hashKey": "object:1464",
-          "expr": "rate({__name__=~\".*HttpClient_5XX_requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"5xx\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "5xx Server errors - Instance: {{instance}}, Action: {{action}}",
           "refId": "E"
@@ -1467,6 +1631,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "HTTP Status Codes",
       "tooltip": {
@@ -1499,7 +1664,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -1507,13 +1676,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 41
       },
+      "hiddenSeries": false,
       "id": 80,
       "legend": {
         "alignAsTable": true,
@@ -1531,6 +1708,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1540,9 +1718,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:1602",
-          "expr": "topk(5,ballerina_http_HttpClient_requests_total_value)",
+          "expr": "topk(5,requests_total_value{connector_name=\"ballerina/http/Client\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Action: {{action}}, Method: {{http_method}}, Peer Address: {{peer_address}}, URL: {{http_url}}",
           "refId": "A"
@@ -1550,6 +1728,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top 5 remote services",
       "tooltip": {
@@ -1584,10 +1763,15 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1609,6 +1793,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1660,11 +1850,12 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:257",
-          "expr": "sum(max_over_time(ballerinax_java_jdbc_Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])-min_over_time(ballerinax_java_jdbc_Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "expr": "sum(max_over_time(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\"}[1m])-min_over_time(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\"}[1m]))",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -1691,6 +1882,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1742,11 +1939,12 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1262",
-          "expr": "sum (max_over_time(ballerinax_java_jdbc_Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerinax_java_jdbc_Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "expr": "sum (max_over_time(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\",error=\"true\"}[1m]) - min_over_time(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\",error=\"true\"}[1m])) OR on() vector(0)",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -1774,6 +1972,12 @@
       ],
       "datasource": "${DS_PROMETHEUSDS}",
       "decimals": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 0,
@@ -1822,12 +2026,12 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "__name__",
+      "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1078",
-          "expr": "sum(ballerinax_java_jdbc_Client_inprogress_requests_value{action=~\"$db_action\"})",
+          "expr": "sum(inprogress_requests_value{action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A"
@@ -1856,6 +2060,12 @@
         "#d44a3a"
       ],
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1904,16 +2114,16 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "Value",
+      "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1215",
-          "expr": "sum (max_over_time(ballerinax_java_jdbc_Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerinax_java_jdbc_Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))*100/sum(max_over_time(ballerinax_java_jdbc_Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]) - min_over_time(ballerinax_java_jdbc_Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m]))",
+          "expr": "sum (max_over_time(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\",error=\"true\"}[1m]) - min_over_time(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\",error=\"true\"}[1m]))*100/sum(max_over_time(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\"}[1m]) - min_over_time(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -1937,13 +2147,21 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 55
       },
+      "hiddenSeries": false,
       "id": 66,
       "legend": {
         "alignAsTable": true,
@@ -1960,6 +2178,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1969,8 +2188,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:395",
-          "expr": "rate(ballerinax_java_jdbc_Client_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\"}[1m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1981,6 +2199,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Ballerina SQL Throughput",
       "tooltip": {
@@ -2013,7 +2232,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -2022,13 +2245,21 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 55
       },
+      "hiddenSeries": false,
       "id": 68,
       "legend": {
         "alignAsTable": true,
@@ -2045,6 +2276,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2054,9 +2286,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:955",
-          "expr": "ballerinax_java_jdbc_Client_response_time_seconds{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\",db_statement=~\"$db_statement\"}",
+          "expr": "response_time_seconds{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Action: {{action}}, Quantile: {{quantile}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
           "refId": "A"
@@ -2064,6 +2296,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Ballerina SQL Response Time Percentiles",
       "tooltip": {
@@ -2096,7 +2329,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -2105,13 +2342,21 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 64
       },
+      "hiddenSeries": false,
       "id": 89,
       "legend": {
         "alignAsTable": true,
@@ -2128,6 +2373,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2137,8 +2383,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:849",
-          "expr": "rate(ballerinax_java_jdbc_Client_failed_requests_total_value{instance=~\"$instance\",action=~\"$db_action\",peer_address=~\"$peer_address\",db_instance=~\"$db_instance\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\",action=~\"$db_action\",connector_name=\"ballerina/java_jdbc/Client\",error=\"true\"}[1m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2149,6 +2394,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Ballerina SQL Errors",
       "tooltip": {
@@ -2181,7 +2427,11 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -2189,13 +2439,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUSDS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 64
       },
+      "hiddenSeries": false,
       "id": 90,
       "legend": {
         "alignAsTable": true,
@@ -2213,6 +2471,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2222,9 +2481,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:902",
-          "expr": "topk(5,ballerinax_java_jdbc_Client_requests_total_value)",
+          "expr": "topk(5,requests_total_value{connector_name=\"ballerina/java_jdbc/Client\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "Instance: {{instance}}, Action: {{action}}, Peer Address: {{peer_address}}, DB Instance: {{db_instance}}, DB Statement: {{db_statement}}",
           "refId": "A"
@@ -2232,6 +2491,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top 5 SQL actions",
       "tooltip": {
@@ -2266,11 +2526,15 @@
           "min": null,
           "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 16,
+  "refresh": false,
+  "schemaVersion": 26,
   "style": "dark",
   "tags": [
     "ballerina",
@@ -2281,17 +2545,27 @@
     "list": [
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,instance)",
         "hide": 0,
         "includeAll": true,
         "label": "instance",
         "multi": true,
         "name": "instance",
         "options": [],
-        "query": "label_values(instance)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,instance)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2301,17 +2575,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,service)",
         "hide": 0,
         "includeAll": true,
         "label": "service",
         "multi": true,
         "name": "service",
         "options": [],
-        "query": "label_values(service)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,service)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2321,17 +2605,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,resource)",
         "hide": 0,
         "includeAll": true,
         "label": "resource",
         "multi": true,
         "name": "resource",
         "options": [],
-        "query": "label_values(resource)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,resource)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2341,17 +2635,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,protocol)",
         "hide": 0,
         "includeAll": true,
         "label": "protocol",
         "multi": true,
         "name": "protocol",
         "options": [],
-        "query": "label_values(protocol)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,protocol)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2361,17 +2665,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,http_method)",
         "hide": 0,
         "includeAll": true,
         "label": "http-method",
         "multi": true,
         "name": "http_method",
         "options": [],
-        "query": "label_values(http_method)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,http_method)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2381,17 +2695,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,http_url)",
         "hide": 0,
         "includeAll": true,
         "label": "http-url",
         "multi": true,
         "name": "http_url",
         "options": [],
-        "query": "label_values(http_url)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,http_url)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2401,37 +2725,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "peer-address",
-        "multi": true,
-        "name": "peer_address",
-        "options": [],
-        "query": "label_values(peer_address)",
-        "refresh": 1,
-        "regex": "",
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,action)",
         "hide": 0,
         "includeAll": true,
         "label": "http-client-action",
         "multi": true,
         "name": "http_client_action",
         "options": [],
-        "query": "label_values(ballerina_http_HttpClient_requests_total_value,action)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,action)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2441,17 +2755,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value{connector_name=\"ballerina/java_jdbc/Client\"},action)",
         "hide": 0,
         "includeAll": true,
         "label": "db-action",
         "multi": true,
         "name": "db_action",
         "options": [],
-        "query": "label_values(ballerinax_java_jdbc_Client_requests_total_value,action)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value{connector_name=\"ballerina/java_jdbc/Client\"},action)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2461,17 +2785,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,connector_name)",
         "hide": 0,
         "includeAll": true,
-        "label": "db-statement",
+        "label": "connector-name",
         "multi": true,
-        "name": "db_statement",
+        "name": "connector_name",
         "options": [],
-        "query": "label_values(ballerinax_java_jdbc_Client_requests_total_value,db_statement)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,connector_name)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2481,17 +2815,27 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(requests_total_value,http_status_code_group)",
         "hide": 0,
         "includeAll": true,
-        "label": "db-instance",
+        "label": "http-status-code-group",
         "multi": true,
-        "name": "db_instance",
+        "name": "http_status_code_group",
         "options": [],
-        "query": "label_values(ballerinax_java_jdbc_Client_requests_total_value,db_instance)",
-        "refresh": 1,
+        "query": "label_values(requests_total_value,http_status_code_group)",
+        "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2533,6 +2877,6 @@
   "timezone": "",
   "title": "Ballerina Metrics",
   "uid": "8FPN-nmik",
-  "version": 2,
+  "version": 3,
   "description": "Monitor Ballerina HTTP/HTTPs Services, HTTP Clients and SQL Clients"
 }
