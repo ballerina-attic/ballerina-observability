@@ -257,7 +257,7 @@
         }
       ],
       "thresholds": "",
-      "title": "Avg Requests / min",
+      "title": "Requests / min",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -586,7 +586,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum without (http_status_code)(rate(requests_total_value{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\",connector_name=\"http\"}[1m]))",
+          "expr": "sum without (http_status_code_group)(rate(requests_total_value{instance=~\"$instance\",protocol=~\"$protocol\",http_method=~\"$http_method\",http_url=~\"$http_url\",service=~\"$service\",resource=~\"$resource\",connector_name=\"http\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -821,7 +821,7 @@
           "refId": "D"
         },
         {
-          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"ballerina/http/Caller\",http_status_code=\"5xx\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"ballerina/http/Caller\",http_status_code_group=\"5xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1388,7 +1388,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum without (http_status_code) (rate(requests_total_value{instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",http_url=~\"$http_url\",peer_address=~\"$peer_address\",connector_name=\"ballerina/http/HttpClient\"}[1m]))",
+          "expr": "sum without (http_status_code_group) (rate(requests_total_value{instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",http_url=~\"$http_url\",peer_address=~\"$peer_address\",connector_name=\"ballerina/http/HttpClient\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1486,7 +1486,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum without(http_status_code) ({__name__=~\"response_time_seconds_value\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",http_url=~\"$http_url\",connector_name=\"ballerina/http/Client\"})",
+          "expr": "sum without(http_status_code_group) ({__name__=~\"response_time_seconds_value\", instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",http_url=~\"$http_url\",connector_name=\"ballerina/http/HttpClient\"})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1589,7 +1589,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code=\"1xx\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"1xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1597,7 +1597,7 @@
           "refId": "A"
         },
         {
-          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"2xx\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"2xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1605,7 +1605,7 @@
           "refId": "B"
         },
         {
-          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"3xx\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"3xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1613,7 +1613,7 @@
           "refId": "C"
         },
         {
-          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"4xx\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"4xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1621,7 +1621,7 @@
           "refId": "D"
         },
         {
-          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"5xx\"}[1m])",
+          "expr": "rate({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"5xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1718,7 +1718,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk(5,requests_total_value{connector_name=\"ballerina/http/Client\"})",
+          "expr": "topk(5,requests_total_value{connector_name=\"ballerina/http/HttpClient\"})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
