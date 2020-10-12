@@ -821,7 +821,7 @@
           "refId": "D"
         },
         {
-          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"http\",http_status_code=\"4xx\"}[1m])",
+          "expr": "rate(requests_total_value{instance=~\"$instance\", action=~\"respond\",connector_name=\"ballerina/http/Caller\",http_status_code=\"5xx\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
