@@ -1050,7 +1050,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum( max_over_time(requests_total_value{connector_name=\"ballerina/http/Client\",action=~\"$http_client_action\"}[1m]) - min_over_time(requests_total_value{  connector_name=\"ballerina/http/Client\",action=~\"$http_client_action\"}[1m]) ) ",
+          "expr": "sum( max_over_time(requests_total_value{connector_name=\"ballerina/http/HttpClient\",instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) - min_over_time(requests_total_value{connector_name=\"ballerina/http/HttpClient\",instance=~\"$instance\", peer_address=~\"$peer_address\", action=~\"$http_client_action\"}[1m]) ) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1139,7 +1139,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "((sum( max_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"4xx\",connector_name=\"ballerina/http/Client\"}[1m]) - min_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"4xx\",connector_name=\"ballerina/http/Client\"}[1m]))) OR vector(0)) + ((sum(max_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"5xx\",connector_name=\"ballerina/http/Client\"}[1m]) - min_over_time(requests_total_value{instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"5xx\",connector_name=\"ballerina/http/Client\"}[1m]))) OR vector(0))",
+          "expr": "((sum( max_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"4xx\",connector_name=\"ballerina/http/HttpClient\"}[1m]) - min_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"4xx\",connector_name=\"ballerina/http/HttpClient\"}[1m]))) OR vector(0)) + ((sum(max_over_time(requests_total_value{ instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"5xx\",connector_name=\"ballerina/http/HttpClient\"}[1m]) - min_over_time(requests_total_value{instance=~\"$instance\", action=~\"$http_client_action\",http_status_code_group=\"5xx\",connector_name=\"ballerina/http/HttpClient\"}[1m]))) OR vector(0))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1229,7 +1229,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(inprogress_requests_value{connector_name=\"ballerina/http/Client\",instance=~\"$instance\"})",
+          "expr": "sum(inprogress_requests_value{connector_name=\"ballerina/http/HttpClient\",instance=~\"$instance\"})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1317,7 +1317,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "((sum( max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"4xx\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"4xx\"}[1m])) OR vector(0)) + ((sum(max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"5xx\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\",http_status_code_group=\"5xx\"}[1m])) OR  vector(0) )))*100 / sum( max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/Client\"}[1m]))\n",
+          "expr": "((sum( max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"4xx\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"4xx\"}[1m])) OR vector(0)) + ((sum(max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"5xx\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\",http_status_code_group=\"5xx\"}[1m])) OR  vector(0) )))*100 / sum( max_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\"}[1m]) - min_over_time({__name__=~\"requests_total_value\", instance=~\"$instance\", action=~\"$http_client_action\",connector_name=\"ballerina/http/HttpClient\"}[1m]))\n",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1388,7 +1388,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum without (http_status_code) (rate(requests_total_value{instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",http_url=~\"$http_url\",connector_name=\"ballerina/http/Client\"}[1m]))",
+          "expr": "sum without (http_status_code) (rate(requests_total_value{instance=~\"$instance\",action=~\"$http_client_action\",http_method=~\"$http_method\",http_url=~\"$http_url\",peer_address=~\"$peer_address\",connector_name=\"ballerina/http/HttpClient\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2833,6 +2833,36 @@
         "name": "http_status_code_group",
         "options": [],
         "query": "label_values(requests_total_value,http_status_code_group)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": [
+            "localhost:8080"
+          ],
+          "value": [
+            "localhost:8080"
+          ]
+        },
+        "datasource": "${DS_PROMETHEUSDS}",
+        "definition": "label_values(peer_address)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "peer-address",
+        "multi": true,
+        "name": "peer_address",
+        "options": [],
+        "query": "label_values(peer_address)",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
