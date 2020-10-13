@@ -26,8 +26,7 @@ import static org.ballerinalang.jvm.observability.ObservabilityConstants.CONFIG_
  * that are used by the {@link OpenTracingExtension}.
  */
 public class Constants {
-    private Constants() {
-
+    private Constants() {   // Prevent Initialization
     }
 
     static final String TRACER_NAME = "jaeger";
@@ -46,5 +45,4 @@ public class Constants {
     static final int DEFAULT_REPORTER_PORT = 5775;
     static final int DEFAULT_REPORTER_FLUSH_INTERVAL = 1000;
     static final int DEFAULT_REPORTER_MAX_BUFFER_SPANS = 10000;
-
 }
