@@ -31,3 +31,11 @@ target
 *.ipr
 .idea
 .m2
+
+# Gradle
+.gradle
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
